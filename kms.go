@@ -13,7 +13,7 @@ import (
 type kmsCrypter struct{}
 
 var kmsClients = make(map[string]kmsiface.KMSAPI)
-var clientsLock = &sync.RWMutex{}
+var clientsLock sync.RWMutex
 
 type kmsEncryptParams struct {
 	Region string
