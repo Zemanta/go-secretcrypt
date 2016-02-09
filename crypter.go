@@ -1,6 +1,8 @@
 package secretcrypt
 
-var crypters = []crypter{plainCrypter{}}
+var crypters = []crypter{
+	plainCrypter{},
+}
 
 var cryptersMap map[string]crypter
 
@@ -10,8 +12,8 @@ type decryptParams map[string]string
 
 type crypter interface {
 	name() string
-	encrypt(string, encryptParams) (ciphertext, decryptParams)
-	decrypt(ciphertext, decryptParams) string
+	encrypt(string, encryptParams) (ciphertext, decryptParams, error)
+	decrypt(ciphertext, decryptParams) (string, error)
 }
 
 func init() {

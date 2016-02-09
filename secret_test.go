@@ -12,5 +12,6 @@ func TestSecret(t *testing.T) {
 		ciphertext:    "abc",
 		decryptParams: decryptParams{"k1": "v1", "k2": "v2"},
 	}
-	assert.Equal(t, "abc", secret.Decrypt())
+	plaintext, _ := secret.Decrypt()
+	assert.Equal(t, "abc", plaintext)
 }

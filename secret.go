@@ -3,13 +3,12 @@ package secretcrypt
 import (
 	"encoding"
 	"fmt"
-	"net/url"
 	"strings"
 )
 
 // Secret represents an encrypted secret
 type Secret interface {
-	Decrypt() string
+	Decrypt() (string, error)
 	encoding.TextMarshaler
 	encoding.TextUnmarshaler
 }
@@ -21,7 +20,7 @@ type secret struct {
 }
 
 // Decrypt decrypts the secret
-func (s *secret) Decrypt() string {
+func (s *secret) Decrypt() (string, error) {
 	return s.crypter.decrypt(s.ciphertext, s.decryptParams)
 }
 
@@ -36,20 +35,17 @@ func (s *secret) UnmarshalText(text []byte) error {
 	if len(tokens) < 3 {
 		return fmt.Errorf("Malformed secret '%s'", text)
 	}
-	crypterName := tokens[0]
-	myCrypter, exists := cryptersMap[crypterName]
+
+	var exists bool
+	s.crypter, exists = cryptersMap[tokens[0]]
 	if !exists {
 		return fmt.Errorf("Invalid crypter name in secret %s", text)
 	}
-	s.crypter = myCrypter
 
-	paramValues, err := url.ParseQuery(tokens[1])
+	var err error
+	s.decryptParams, err = parseDecryptParams(tokens[1])
 	if err != nil {
-		return fmt.Errorf("Invalid decryption parameters in secret %s", text)
-	}
-	s.decryptParams = make(decryptParams)
-	for k, v := range paramValues {
-		s.decryptParams[k] = v[0]
+		return fmt.Errorf("Invalid decryption parameters in secret %s: %s", text, err)
 	}
 
 	s.ciphertext = ciphertext(strings.Join(tokens[2:], ":"))
