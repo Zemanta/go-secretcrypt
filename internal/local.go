@@ -1,4 +1,4 @@
-package secretcrypt
+package internal
 
 import (
 	"bytes"
@@ -16,18 +16,18 @@ import (
 	"github.com/mitchellh/go-homedir"
 )
 
-type localCrypter struct{}
+type LocalCrypter struct{}
 
 var keyCached []byte
 var keyCacheLock sync.RWMutex
 
 var pathGetter keyPathGetter = userDataKeyPathGetter{}
 
-func (c localCrypter) name() string {
+func (c LocalCrypter) Name() string {
 	return "local"
 }
 
-func (c localCrypter) encrypt(plaintext string, encryptParams encryptParams) (ciphertext, decryptParams, error) {
+func (c LocalCrypter) Encrypt(plaintext string, encryptParams EncryptParams) (Ciphertext, DecryptParams, error) {
 	padding := aes.BlockSize - len(plaintext)%aes.BlockSize
 	padtext := string(bytes.Repeat([]byte{byte(padding)}, padding))
 	plaintext = plaintext + padtext
@@ -51,10 +51,10 @@ func (c localCrypter) encrypt(plaintext string, encryptParams encryptParams) (ci
 	mode := cipher.NewCBCEncrypter(block, iv)
 	mode.CryptBlocks(myCiphertext[aes.BlockSize:], []byte(plaintext))
 
-	return ciphertext(myCiphertext), nil, nil
+	return Ciphertext(myCiphertext), nil, nil
 }
 
-func (c localCrypter) decrypt(myCiphertext ciphertext, decryptParams decryptParams) (string, error) {
+func (c LocalCrypter) Decrypt(myCiphertext Ciphertext, decryptParams DecryptParams) (string, error) {
 	key, err := localKey()
 	if err != nil {
 		return "", fmt.Errorf("Error retrieving local key: %s", err)

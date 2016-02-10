@@ -1,4 +1,4 @@
-package secretcrypt
+package internal
 
 import (
 	"testing"
@@ -10,9 +10,9 @@ func TestUnmarshalText(t *testing.T) {
 	var secret secret
 	err := secret.UnmarshalText([]byte("plain:k1=v1&k2=v2:my-abc"))
 	assert.Nil(t, err)
-	assert.Equal(t, "plain", secret.crypter.name())
+	assert.Equal(t, "plain", secret.crypter.Name())
 	assert.Equal(t, "my-abc", string(secret.ciphertext))
-	assert.Equal(t, decryptParams{
+	assert.Equal(t, DecryptParams{
 		"k1": "v1",
 		"k2": "v2",
 	}, secret.decryptParams)

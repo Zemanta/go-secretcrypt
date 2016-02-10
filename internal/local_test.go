@@ -1,4 +1,4 @@
-package secretcrypt
+package internal
 
 import (
 	"io/ioutil"
@@ -24,16 +24,16 @@ func TestLocal(t *testing.T) {
 	defer os.RemoveAll(tmpDir)
 	pathGetter = tmpKeyPathGetter{tmpDir}
 
-	localCrypter := localCrypter{}
+	localCrypter := LocalCrypter{}
 
-	secret, _, err := localCrypter.encrypt("mypass", nil)
+	secret, _, err := localCrypter.Encrypt("mypass", nil)
 	assert.NoError(t, err)
-	secret2, _, err := localCrypter.encrypt("mypass2", nil)
+	secret2, _, err := localCrypter.Encrypt("mypass2", nil)
 	assert.NoError(t, err)
 
-	plaintext, err := localCrypter.decrypt(secret, nil)
+	plaintext, err := localCrypter.Decrypt(secret, nil)
 	assert.NoError(t, err)
-	plaintext2, err := localCrypter.decrypt(secret2, nil)
+	plaintext2, err := localCrypter.Decrypt(secret2, nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "mypass", plaintext)

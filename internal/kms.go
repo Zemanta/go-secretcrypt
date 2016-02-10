@@ -1,4 +1,4 @@
-package secretcrypt
+package internal
 
 import (
 	"encoding/base64"
@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/kms/kmsiface"
 )
 
-type kmsCrypter struct{}
+type KMSCrypter struct{}
 
 var kmsClients = make(map[string]kmsiface.KMSAPI)
 var clientsLock sync.RWMutex
@@ -24,15 +24,15 @@ type kmsDecryptParams struct {
 	Region string
 }
 
-func (c kmsCrypter) name() string {
+func (c KMSCrypter) Name() string {
 	return "kms"
 }
 
-func (c kmsCrypter) encrypt(plaintext string, encryptParams encryptParams) (ciphertext, decryptParams, error) {
+func (c KMSCrypter) Encrypt(plaintext string, encryptParams EncryptParams) (Ciphertext, DecryptParams, error) {
 	var params kmsEncryptParams
 	err := decodeEncryptParams(encryptParams, &params)
 	if err != nil {
-		return ciphertext(""), nil, err
+		return Ciphertext(""), nil, err
 	}
 
 	resp, err := kmsClient(params.Region).Encrypt(
@@ -42,15 +42,15 @@ func (c kmsCrypter) encrypt(plaintext string, encryptParams encryptParams) (ciph
 		},
 	)
 	if err != nil {
-		return ciphertext(""), nil, err
+		return Ciphertext(""), nil, err
 	}
 
 	myCiphertext := base64.StdEncoding.EncodeToString(resp.CiphertextBlob)
 	myDecryptParams := kmsDecryptParams{Region: params.Region}
-	return ciphertext(myCiphertext), encodeDecryptParams(myDecryptParams), nil
+	return Ciphertext(myCiphertext), encodeDecryptParams(myDecryptParams), nil
 }
 
-func (c kmsCrypter) decrypt(myCiphertext ciphertext, decryptParams decryptParams) (string, error) {
+func (c KMSCrypter) Decrypt(myCiphertext Ciphertext, decryptParams DecryptParams) (string, error) {
 	var params kmsDecryptParams
 	decodeDecryptParams(decryptParams, &params)
 

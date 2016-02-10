@@ -1,9 +1,9 @@
-package secretcrypt
+package internal
 
 import (
 	"testing"
 
-	"github.com/Zemanta/go-secretcrypt/mocks"
+	"github.com/Zemanta/go-secretcrypt/internal/mocks"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/kms"
 	"github.com/stretchr/testify/assert"
@@ -13,7 +13,7 @@ func TestKms(t *testing.T) {
 	mockKMS := &mocks.KMSAPI{}
 	defer mockKMS.AssertExpectations(t)
 	kmsClients["myregion"] = mockKMS
-	kmsCrypter := kmsCrypter{}
+	kmsCrypter := KMSCrypter{}
 
 	mockKMS.On("Encrypt",
 		&kms.EncryptInput{
@@ -26,11 +26,11 @@ func TestKms(t *testing.T) {
 		},
 		nil,
 	)
-	secret, myDecryptParams, err := kmsCrypter.encrypt("mypass", map[string]string{
+	secret, myDecryptParams, err := kmsCrypter.Encrypt("mypass", map[string]string{
 		"region": "myregion",
 		"keyID":  "mykey",
 	})
-	assert.Equal(t, myDecryptParams, decryptParams{
+	assert.Equal(t, myDecryptParams, DecryptParams{
 		"region": "myregion",
 	})
 	assert.Nil(t, err)
@@ -46,7 +46,7 @@ func TestKms(t *testing.T) {
 		nil,
 	)
 
-	plaintext, err := kmsCrypter.decrypt(secret, myDecryptParams)
+	plaintext, err := kmsCrypter.Decrypt(secret, myDecryptParams)
 	assert.Nil(t, err)
 	assert.Equal(t, "mypass", plaintext)
 }
