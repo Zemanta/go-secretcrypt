@@ -96,43 +96,46 @@ func localKey() ([]byte, error) {
 	key := keyCached
 	keyCacheLock.RUnlock()
 
-	if len(key) == 0 {
-		keyCacheLock.Lock()
-		defer keyCacheLock.Unlock()
-		key = keyCached
+	if len(key) > 0 {
+		return key, nil
+	}
 
-		if len(key) == 0 {
-			// retrieve or generate key
-			keyDir, keyFilePath, err := pathGetter.keyPaths()
-			if err != nil {
-				return nil, err
-			}
+	keyCacheLock.Lock()
+	defer keyCacheLock.Unlock()
+	key = keyCached
 
-			// if key file already exists
-			if _, err := os.Stat(keyFilePath); err == nil {
-				key, err = ioutil.ReadFile(keyFilePath)
-				if err != nil {
-					return nil, err
-				}
-				return key, nil
-			}
+	if len(key) > 0 {
+		return key, nil
+	}
+	// retrieve or generate key
+	keyDir, keyFilePath, err := pathGetter.keyPaths()
+	if err != nil {
+		return nil, err
+	}
 
-			// else generate the key
-			key = make([]byte, 16)
-			_, err = rand.Read(key)
-			if err != nil {
-				return nil, err
-			}
-			// and write it into the key file
-			err = os.MkdirAll(keyDir, 0755)
-			if err != nil {
-				return nil, err
-			}
-			err = ioutil.WriteFile(keyFilePath, key, 0644)
-			if err != nil {
-				return nil, err
-			}
+	// if key file already exists
+	if _, err := os.Stat(keyFilePath); err == nil {
+		key, err = ioutil.ReadFile(keyFilePath)
+		if err != nil {
+			return nil, err
 		}
+		return key, nil
+	}
+
+	// else generate the key
+	key = make([]byte, 16)
+	_, err = rand.Read(key)
+	if err != nil {
+		return nil, err
+	}
+	// and write it into the key file
+	err = os.MkdirAll(keyDir, 0755)
+	if err != nil {
+		return nil, err
+	}
+	err = ioutil.WriteFile(keyFilePath, key, 0644)
+	if err != nil {
+		return nil, err
 	}
 	return key, nil
 }

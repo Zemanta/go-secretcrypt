@@ -16,6 +16,9 @@ type Secret struct {
 
 // Decrypt decrypts the secret
 func (s Secret) Decrypt() (string, error) {
+	if s.crypter == nil || s.ciphertext == "" {
+		return "", fmt.Errorf("Cannot decrypt a zero secret!")
+	}
 	return s.crypter.Decrypt(s.ciphertext, s.decryptParams)
 }
 

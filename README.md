@@ -25,10 +25,21 @@ kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
 
 ```
 
-use that secret in my config file:
-```go
+use that secret in my TOML config file:
+```toml
 MySecret = "kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE..."  # shortened for brevity
 ```
+
+>  or YAML:
+>  ```yaml
+>  mysecret: kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE...  # shortened for brevity
+>  ```
+>
+>  or JSON:
+>  ```json
+>  {"MySecret": "kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE..."}
+>  ```
+
 
 Then, you can use that secret in your config struct
 ```go
@@ -44,7 +55,10 @@ if _, err := toml.Decode(tomlData, &conf); err != nil {
 
 and get its plaintext as
 ```go
-conf.MySecret.Decrypt()
+plaintext, err := conf.MySecret.Decrypt()
+if err != nil {
+  // handle error
+}
 
 ```
 
@@ -66,7 +80,3 @@ It generates a local key in your %USER_DATA_DIR%
 be accidentally committed to CVS.
 
 It then uses that key to symmetrically encrypt and decrypt your secrets.
-
-It uses the [cryptography](https://cryptography.io) library for encryption, which
-can be installed using `pip install cryptography`, but might require you to install
-`python-dev` and `libffi-dev` with your system package manager first.
