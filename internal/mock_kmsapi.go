@@ -1,16 +1,16 @@
-package mocks
+package internal
 
 import "github.com/stretchr/testify/mock"
 
 import "github.com/aws/aws-sdk-go/aws/request"
 import "github.com/aws/aws-sdk-go/service/kms"
 
-type KMSAPI struct {
+type MockKMSAPI struct {
 	mock.Mock
 }
 
 // CancelKeyDeletionRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) CancelKeyDeletionRequest(_a0 *kms.CancelKeyDeletionInput) (*request.Request, *kms.CancelKeyDeletionOutput) {
+func (_m *MockKMSAPI) CancelKeyDeletionRequest(_a0 *kms.CancelKeyDeletionInput) (*request.Request, *kms.CancelKeyDeletionOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -35,7 +35,7 @@ func (_m *KMSAPI) CancelKeyDeletionRequest(_a0 *kms.CancelKeyDeletionInput) (*re
 }
 
 // CancelKeyDeletion provides a mock function with given fields: _a0
-func (_m *KMSAPI) CancelKeyDeletion(_a0 *kms.CancelKeyDeletionInput) (*kms.CancelKeyDeletionOutput, error) {
+func (_m *MockKMSAPI) CancelKeyDeletion(_a0 *kms.CancelKeyDeletionInput) (*kms.CancelKeyDeletionOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.CancelKeyDeletionOutput
@@ -58,7 +58,7 @@ func (_m *KMSAPI) CancelKeyDeletion(_a0 *kms.CancelKeyDeletionInput) (*kms.Cance
 }
 
 // CreateAliasRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) CreateAliasRequest(_a0 *kms.CreateAliasInput) (*request.Request, *kms.CreateAliasOutput) {
+func (_m *MockKMSAPI) CreateAliasRequest(_a0 *kms.CreateAliasInput) (*request.Request, *kms.CreateAliasOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -83,7 +83,7 @@ func (_m *KMSAPI) CreateAliasRequest(_a0 *kms.CreateAliasInput) (*request.Reques
 }
 
 // CreateAlias provides a mock function with given fields: _a0
-func (_m *KMSAPI) CreateAlias(_a0 *kms.CreateAliasInput) (*kms.CreateAliasOutput, error) {
+func (_m *MockKMSAPI) CreateAlias(_a0 *kms.CreateAliasInput) (*kms.CreateAliasOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.CreateAliasOutput
@@ -106,7 +106,7 @@ func (_m *KMSAPI) CreateAlias(_a0 *kms.CreateAliasInput) (*kms.CreateAliasOutput
 }
 
 // CreateGrantRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) CreateGrantRequest(_a0 *kms.CreateGrantInput) (*request.Request, *kms.CreateGrantOutput) {
+func (_m *MockKMSAPI) CreateGrantRequest(_a0 *kms.CreateGrantInput) (*request.Request, *kms.CreateGrantOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -131,7 +131,7 @@ func (_m *KMSAPI) CreateGrantRequest(_a0 *kms.CreateGrantInput) (*request.Reques
 }
 
 // CreateGrant provides a mock function with given fields: _a0
-func (_m *KMSAPI) CreateGrant(_a0 *kms.CreateGrantInput) (*kms.CreateGrantOutput, error) {
+func (_m *MockKMSAPI) CreateGrant(_a0 *kms.CreateGrantInput) (*kms.CreateGrantOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.CreateGrantOutput
@@ -154,7 +154,7 @@ func (_m *KMSAPI) CreateGrant(_a0 *kms.CreateGrantInput) (*kms.CreateGrantOutput
 }
 
 // CreateKeyRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) CreateKeyRequest(_a0 *kms.CreateKeyInput) (*request.Request, *kms.CreateKeyOutput) {
+func (_m *MockKMSAPI) CreateKeyRequest(_a0 *kms.CreateKeyInput) (*request.Request, *kms.CreateKeyOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -179,7 +179,7 @@ func (_m *KMSAPI) CreateKeyRequest(_a0 *kms.CreateKeyInput) (*request.Request, *
 }
 
 // CreateKey provides a mock function with given fields: _a0
-func (_m *KMSAPI) CreateKey(_a0 *kms.CreateKeyInput) (*kms.CreateKeyOutput, error) {
+func (_m *MockKMSAPI) CreateKey(_a0 *kms.CreateKeyInput) (*kms.CreateKeyOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.CreateKeyOutput
@@ -202,7 +202,7 @@ func (_m *KMSAPI) CreateKey(_a0 *kms.CreateKeyInput) (*kms.CreateKeyOutput, erro
 }
 
 // DecryptRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) DecryptRequest(_a0 *kms.DecryptInput) (*request.Request, *kms.DecryptOutput) {
+func (_m *MockKMSAPI) DecryptRequest(_a0 *kms.DecryptInput) (*request.Request, *kms.DecryptOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -227,7 +227,7 @@ func (_m *KMSAPI) DecryptRequest(_a0 *kms.DecryptInput) (*request.Request, *kms.
 }
 
 // Decrypt provides a mock function with given fields: _a0
-func (_m *KMSAPI) Decrypt(_a0 *kms.DecryptInput) (*kms.DecryptOutput, error) {
+func (_m *MockKMSAPI) Decrypt(_a0 *kms.DecryptInput) (*kms.DecryptOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.DecryptOutput
@@ -250,7 +250,7 @@ func (_m *KMSAPI) Decrypt(_a0 *kms.DecryptInput) (*kms.DecryptOutput, error) {
 }
 
 // DeleteAliasRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) DeleteAliasRequest(_a0 *kms.DeleteAliasInput) (*request.Request, *kms.DeleteAliasOutput) {
+func (_m *MockKMSAPI) DeleteAliasRequest(_a0 *kms.DeleteAliasInput) (*request.Request, *kms.DeleteAliasOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -275,7 +275,7 @@ func (_m *KMSAPI) DeleteAliasRequest(_a0 *kms.DeleteAliasInput) (*request.Reques
 }
 
 // DeleteAlias provides a mock function with given fields: _a0
-func (_m *KMSAPI) DeleteAlias(_a0 *kms.DeleteAliasInput) (*kms.DeleteAliasOutput, error) {
+func (_m *MockKMSAPI) DeleteAlias(_a0 *kms.DeleteAliasInput) (*kms.DeleteAliasOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.DeleteAliasOutput
@@ -298,7 +298,7 @@ func (_m *KMSAPI) DeleteAlias(_a0 *kms.DeleteAliasInput) (*kms.DeleteAliasOutput
 }
 
 // DescribeKeyRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) DescribeKeyRequest(_a0 *kms.DescribeKeyInput) (*request.Request, *kms.DescribeKeyOutput) {
+func (_m *MockKMSAPI) DescribeKeyRequest(_a0 *kms.DescribeKeyInput) (*request.Request, *kms.DescribeKeyOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -323,7 +323,7 @@ func (_m *KMSAPI) DescribeKeyRequest(_a0 *kms.DescribeKeyInput) (*request.Reques
 }
 
 // DescribeKey provides a mock function with given fields: _a0
-func (_m *KMSAPI) DescribeKey(_a0 *kms.DescribeKeyInput) (*kms.DescribeKeyOutput, error) {
+func (_m *MockKMSAPI) DescribeKey(_a0 *kms.DescribeKeyInput) (*kms.DescribeKeyOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.DescribeKeyOutput
@@ -346,7 +346,7 @@ func (_m *KMSAPI) DescribeKey(_a0 *kms.DescribeKeyInput) (*kms.DescribeKeyOutput
 }
 
 // DisableKeyRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) DisableKeyRequest(_a0 *kms.DisableKeyInput) (*request.Request, *kms.DisableKeyOutput) {
+func (_m *MockKMSAPI) DisableKeyRequest(_a0 *kms.DisableKeyInput) (*request.Request, *kms.DisableKeyOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -371,7 +371,7 @@ func (_m *KMSAPI) DisableKeyRequest(_a0 *kms.DisableKeyInput) (*request.Request,
 }
 
 // DisableKey provides a mock function with given fields: _a0
-func (_m *KMSAPI) DisableKey(_a0 *kms.DisableKeyInput) (*kms.DisableKeyOutput, error) {
+func (_m *MockKMSAPI) DisableKey(_a0 *kms.DisableKeyInput) (*kms.DisableKeyOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.DisableKeyOutput
@@ -394,7 +394,7 @@ func (_m *KMSAPI) DisableKey(_a0 *kms.DisableKeyInput) (*kms.DisableKeyOutput, e
 }
 
 // DisableKeyRotationRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) DisableKeyRotationRequest(_a0 *kms.DisableKeyRotationInput) (*request.Request, *kms.DisableKeyRotationOutput) {
+func (_m *MockKMSAPI) DisableKeyRotationRequest(_a0 *kms.DisableKeyRotationInput) (*request.Request, *kms.DisableKeyRotationOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -419,7 +419,7 @@ func (_m *KMSAPI) DisableKeyRotationRequest(_a0 *kms.DisableKeyRotationInput) (*
 }
 
 // DisableKeyRotation provides a mock function with given fields: _a0
-func (_m *KMSAPI) DisableKeyRotation(_a0 *kms.DisableKeyRotationInput) (*kms.DisableKeyRotationOutput, error) {
+func (_m *MockKMSAPI) DisableKeyRotation(_a0 *kms.DisableKeyRotationInput) (*kms.DisableKeyRotationOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.DisableKeyRotationOutput
@@ -442,7 +442,7 @@ func (_m *KMSAPI) DisableKeyRotation(_a0 *kms.DisableKeyRotationInput) (*kms.Dis
 }
 
 // EnableKeyRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) EnableKeyRequest(_a0 *kms.EnableKeyInput) (*request.Request, *kms.EnableKeyOutput) {
+func (_m *MockKMSAPI) EnableKeyRequest(_a0 *kms.EnableKeyInput) (*request.Request, *kms.EnableKeyOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -467,7 +467,7 @@ func (_m *KMSAPI) EnableKeyRequest(_a0 *kms.EnableKeyInput) (*request.Request, *
 }
 
 // EnableKey provides a mock function with given fields: _a0
-func (_m *KMSAPI) EnableKey(_a0 *kms.EnableKeyInput) (*kms.EnableKeyOutput, error) {
+func (_m *MockKMSAPI) EnableKey(_a0 *kms.EnableKeyInput) (*kms.EnableKeyOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.EnableKeyOutput
@@ -490,7 +490,7 @@ func (_m *KMSAPI) EnableKey(_a0 *kms.EnableKeyInput) (*kms.EnableKeyOutput, erro
 }
 
 // EnableKeyRotationRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) EnableKeyRotationRequest(_a0 *kms.EnableKeyRotationInput) (*request.Request, *kms.EnableKeyRotationOutput) {
+func (_m *MockKMSAPI) EnableKeyRotationRequest(_a0 *kms.EnableKeyRotationInput) (*request.Request, *kms.EnableKeyRotationOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -515,7 +515,7 @@ func (_m *KMSAPI) EnableKeyRotationRequest(_a0 *kms.EnableKeyRotationInput) (*re
 }
 
 // EnableKeyRotation provides a mock function with given fields: _a0
-func (_m *KMSAPI) EnableKeyRotation(_a0 *kms.EnableKeyRotationInput) (*kms.EnableKeyRotationOutput, error) {
+func (_m *MockKMSAPI) EnableKeyRotation(_a0 *kms.EnableKeyRotationInput) (*kms.EnableKeyRotationOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.EnableKeyRotationOutput
@@ -538,7 +538,7 @@ func (_m *KMSAPI) EnableKeyRotation(_a0 *kms.EnableKeyRotationInput) (*kms.Enabl
 }
 
 // EncryptRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) EncryptRequest(_a0 *kms.EncryptInput) (*request.Request, *kms.EncryptOutput) {
+func (_m *MockKMSAPI) EncryptRequest(_a0 *kms.EncryptInput) (*request.Request, *kms.EncryptOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -563,7 +563,7 @@ func (_m *KMSAPI) EncryptRequest(_a0 *kms.EncryptInput) (*request.Request, *kms.
 }
 
 // Encrypt provides a mock function with given fields: _a0
-func (_m *KMSAPI) Encrypt(_a0 *kms.EncryptInput) (*kms.EncryptOutput, error) {
+func (_m *MockKMSAPI) Encrypt(_a0 *kms.EncryptInput) (*kms.EncryptOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.EncryptOutput
@@ -586,7 +586,7 @@ func (_m *KMSAPI) Encrypt(_a0 *kms.EncryptInput) (*kms.EncryptOutput, error) {
 }
 
 // GenerateDataKeyRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) GenerateDataKeyRequest(_a0 *kms.GenerateDataKeyInput) (*request.Request, *kms.GenerateDataKeyOutput) {
+func (_m *MockKMSAPI) GenerateDataKeyRequest(_a0 *kms.GenerateDataKeyInput) (*request.Request, *kms.GenerateDataKeyOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -611,7 +611,7 @@ func (_m *KMSAPI) GenerateDataKeyRequest(_a0 *kms.GenerateDataKeyInput) (*reques
 }
 
 // GenerateDataKey provides a mock function with given fields: _a0
-func (_m *KMSAPI) GenerateDataKey(_a0 *kms.GenerateDataKeyInput) (*kms.GenerateDataKeyOutput, error) {
+func (_m *MockKMSAPI) GenerateDataKey(_a0 *kms.GenerateDataKeyInput) (*kms.GenerateDataKeyOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.GenerateDataKeyOutput
@@ -634,7 +634,7 @@ func (_m *KMSAPI) GenerateDataKey(_a0 *kms.GenerateDataKeyInput) (*kms.GenerateD
 }
 
 // GenerateDataKeyWithoutPlaintextRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) GenerateDataKeyWithoutPlaintextRequest(_a0 *kms.GenerateDataKeyWithoutPlaintextInput) (*request.Request, *kms.GenerateDataKeyWithoutPlaintextOutput) {
+func (_m *MockKMSAPI) GenerateDataKeyWithoutPlaintextRequest(_a0 *kms.GenerateDataKeyWithoutPlaintextInput) (*request.Request, *kms.GenerateDataKeyWithoutPlaintextOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -659,7 +659,7 @@ func (_m *KMSAPI) GenerateDataKeyWithoutPlaintextRequest(_a0 *kms.GenerateDataKe
 }
 
 // GenerateDataKeyWithoutPlaintext provides a mock function with given fields: _a0
-func (_m *KMSAPI) GenerateDataKeyWithoutPlaintext(_a0 *kms.GenerateDataKeyWithoutPlaintextInput) (*kms.GenerateDataKeyWithoutPlaintextOutput, error) {
+func (_m *MockKMSAPI) GenerateDataKeyWithoutPlaintext(_a0 *kms.GenerateDataKeyWithoutPlaintextInput) (*kms.GenerateDataKeyWithoutPlaintextOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.GenerateDataKeyWithoutPlaintextOutput
@@ -682,7 +682,7 @@ func (_m *KMSAPI) GenerateDataKeyWithoutPlaintext(_a0 *kms.GenerateDataKeyWithou
 }
 
 // GenerateRandomRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) GenerateRandomRequest(_a0 *kms.GenerateRandomInput) (*request.Request, *kms.GenerateRandomOutput) {
+func (_m *MockKMSAPI) GenerateRandomRequest(_a0 *kms.GenerateRandomInput) (*request.Request, *kms.GenerateRandomOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -707,7 +707,7 @@ func (_m *KMSAPI) GenerateRandomRequest(_a0 *kms.GenerateRandomInput) (*request.
 }
 
 // GenerateRandom provides a mock function with given fields: _a0
-func (_m *KMSAPI) GenerateRandom(_a0 *kms.GenerateRandomInput) (*kms.GenerateRandomOutput, error) {
+func (_m *MockKMSAPI) GenerateRandom(_a0 *kms.GenerateRandomInput) (*kms.GenerateRandomOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.GenerateRandomOutput
@@ -730,7 +730,7 @@ func (_m *KMSAPI) GenerateRandom(_a0 *kms.GenerateRandomInput) (*kms.GenerateRan
 }
 
 // GetKeyPolicyRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) GetKeyPolicyRequest(_a0 *kms.GetKeyPolicyInput) (*request.Request, *kms.GetKeyPolicyOutput) {
+func (_m *MockKMSAPI) GetKeyPolicyRequest(_a0 *kms.GetKeyPolicyInput) (*request.Request, *kms.GetKeyPolicyOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -755,7 +755,7 @@ func (_m *KMSAPI) GetKeyPolicyRequest(_a0 *kms.GetKeyPolicyInput) (*request.Requ
 }
 
 // GetKeyPolicy provides a mock function with given fields: _a0
-func (_m *KMSAPI) GetKeyPolicy(_a0 *kms.GetKeyPolicyInput) (*kms.GetKeyPolicyOutput, error) {
+func (_m *MockKMSAPI) GetKeyPolicy(_a0 *kms.GetKeyPolicyInput) (*kms.GetKeyPolicyOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.GetKeyPolicyOutput
@@ -778,7 +778,7 @@ func (_m *KMSAPI) GetKeyPolicy(_a0 *kms.GetKeyPolicyInput) (*kms.GetKeyPolicyOut
 }
 
 // GetKeyRotationStatusRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) GetKeyRotationStatusRequest(_a0 *kms.GetKeyRotationStatusInput) (*request.Request, *kms.GetKeyRotationStatusOutput) {
+func (_m *MockKMSAPI) GetKeyRotationStatusRequest(_a0 *kms.GetKeyRotationStatusInput) (*request.Request, *kms.GetKeyRotationStatusOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -803,7 +803,7 @@ func (_m *KMSAPI) GetKeyRotationStatusRequest(_a0 *kms.GetKeyRotationStatusInput
 }
 
 // GetKeyRotationStatus provides a mock function with given fields: _a0
-func (_m *KMSAPI) GetKeyRotationStatus(_a0 *kms.GetKeyRotationStatusInput) (*kms.GetKeyRotationStatusOutput, error) {
+func (_m *MockKMSAPI) GetKeyRotationStatus(_a0 *kms.GetKeyRotationStatusInput) (*kms.GetKeyRotationStatusOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.GetKeyRotationStatusOutput
@@ -826,7 +826,7 @@ func (_m *KMSAPI) GetKeyRotationStatus(_a0 *kms.GetKeyRotationStatusInput) (*kms
 }
 
 // ListAliasesRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) ListAliasesRequest(_a0 *kms.ListAliasesInput) (*request.Request, *kms.ListAliasesOutput) {
+func (_m *MockKMSAPI) ListAliasesRequest(_a0 *kms.ListAliasesInput) (*request.Request, *kms.ListAliasesOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -851,7 +851,7 @@ func (_m *KMSAPI) ListAliasesRequest(_a0 *kms.ListAliasesInput) (*request.Reques
 }
 
 // ListAliases provides a mock function with given fields: _a0
-func (_m *KMSAPI) ListAliases(_a0 *kms.ListAliasesInput) (*kms.ListAliasesOutput, error) {
+func (_m *MockKMSAPI) ListAliases(_a0 *kms.ListAliasesInput) (*kms.ListAliasesOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.ListAliasesOutput
@@ -874,7 +874,7 @@ func (_m *KMSAPI) ListAliases(_a0 *kms.ListAliasesInput) (*kms.ListAliasesOutput
 }
 
 // ListAliasesPages provides a mock function with given fields: _a0, _a1
-func (_m *KMSAPI) ListAliasesPages(_a0 *kms.ListAliasesInput, _a1 func(*kms.ListAliasesOutput, bool) bool) error {
+func (_m *MockKMSAPI) ListAliasesPages(_a0 *kms.ListAliasesInput, _a1 func(*kms.ListAliasesOutput, bool) bool) error {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 error
@@ -888,7 +888,7 @@ func (_m *KMSAPI) ListAliasesPages(_a0 *kms.ListAliasesInput, _a1 func(*kms.List
 }
 
 // ListGrantsRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) ListGrantsRequest(_a0 *kms.ListGrantsInput) (*request.Request, *kms.ListGrantsResponse) {
+func (_m *MockKMSAPI) ListGrantsRequest(_a0 *kms.ListGrantsInput) (*request.Request, *kms.ListGrantsResponse) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -913,7 +913,7 @@ func (_m *KMSAPI) ListGrantsRequest(_a0 *kms.ListGrantsInput) (*request.Request,
 }
 
 // ListGrants provides a mock function with given fields: _a0
-func (_m *KMSAPI) ListGrants(_a0 *kms.ListGrantsInput) (*kms.ListGrantsResponse, error) {
+func (_m *MockKMSAPI) ListGrants(_a0 *kms.ListGrantsInput) (*kms.ListGrantsResponse, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.ListGrantsResponse
@@ -936,7 +936,7 @@ func (_m *KMSAPI) ListGrants(_a0 *kms.ListGrantsInput) (*kms.ListGrantsResponse,
 }
 
 // ListGrantsPages provides a mock function with given fields: _a0, _a1
-func (_m *KMSAPI) ListGrantsPages(_a0 *kms.ListGrantsInput, _a1 func(*kms.ListGrantsResponse, bool) bool) error {
+func (_m *MockKMSAPI) ListGrantsPages(_a0 *kms.ListGrantsInput, _a1 func(*kms.ListGrantsResponse, bool) bool) error {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 error
@@ -950,7 +950,7 @@ func (_m *KMSAPI) ListGrantsPages(_a0 *kms.ListGrantsInput, _a1 func(*kms.ListGr
 }
 
 // ListKeyPoliciesRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) ListKeyPoliciesRequest(_a0 *kms.ListKeyPoliciesInput) (*request.Request, *kms.ListKeyPoliciesOutput) {
+func (_m *MockKMSAPI) ListKeyPoliciesRequest(_a0 *kms.ListKeyPoliciesInput) (*request.Request, *kms.ListKeyPoliciesOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -975,7 +975,7 @@ func (_m *KMSAPI) ListKeyPoliciesRequest(_a0 *kms.ListKeyPoliciesInput) (*reques
 }
 
 // ListKeyPolicies provides a mock function with given fields: _a0
-func (_m *KMSAPI) ListKeyPolicies(_a0 *kms.ListKeyPoliciesInput) (*kms.ListKeyPoliciesOutput, error) {
+func (_m *MockKMSAPI) ListKeyPolicies(_a0 *kms.ListKeyPoliciesInput) (*kms.ListKeyPoliciesOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.ListKeyPoliciesOutput
@@ -998,7 +998,7 @@ func (_m *KMSAPI) ListKeyPolicies(_a0 *kms.ListKeyPoliciesInput) (*kms.ListKeyPo
 }
 
 // ListKeyPoliciesPages provides a mock function with given fields: _a0, _a1
-func (_m *KMSAPI) ListKeyPoliciesPages(_a0 *kms.ListKeyPoliciesInput, _a1 func(*kms.ListKeyPoliciesOutput, bool) bool) error {
+func (_m *MockKMSAPI) ListKeyPoliciesPages(_a0 *kms.ListKeyPoliciesInput, _a1 func(*kms.ListKeyPoliciesOutput, bool) bool) error {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 error
@@ -1012,7 +1012,7 @@ func (_m *KMSAPI) ListKeyPoliciesPages(_a0 *kms.ListKeyPoliciesInput, _a1 func(*
 }
 
 // ListKeysRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) ListKeysRequest(_a0 *kms.ListKeysInput) (*request.Request, *kms.ListKeysOutput) {
+func (_m *MockKMSAPI) ListKeysRequest(_a0 *kms.ListKeysInput) (*request.Request, *kms.ListKeysOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -1037,7 +1037,7 @@ func (_m *KMSAPI) ListKeysRequest(_a0 *kms.ListKeysInput) (*request.Request, *km
 }
 
 // ListKeys provides a mock function with given fields: _a0
-func (_m *KMSAPI) ListKeys(_a0 *kms.ListKeysInput) (*kms.ListKeysOutput, error) {
+func (_m *MockKMSAPI) ListKeys(_a0 *kms.ListKeysInput) (*kms.ListKeysOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.ListKeysOutput
@@ -1060,7 +1060,7 @@ func (_m *KMSAPI) ListKeys(_a0 *kms.ListKeysInput) (*kms.ListKeysOutput, error) 
 }
 
 // ListKeysPages provides a mock function with given fields: _a0, _a1
-func (_m *KMSAPI) ListKeysPages(_a0 *kms.ListKeysInput, _a1 func(*kms.ListKeysOutput, bool) bool) error {
+func (_m *MockKMSAPI) ListKeysPages(_a0 *kms.ListKeysInput, _a1 func(*kms.ListKeysOutput, bool) bool) error {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 error
@@ -1074,7 +1074,7 @@ func (_m *KMSAPI) ListKeysPages(_a0 *kms.ListKeysInput, _a1 func(*kms.ListKeysOu
 }
 
 // ListRetirableGrantsRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) ListRetirableGrantsRequest(_a0 *kms.ListRetirableGrantsInput) (*request.Request, *kms.ListGrantsResponse) {
+func (_m *MockKMSAPI) ListRetirableGrantsRequest(_a0 *kms.ListRetirableGrantsInput) (*request.Request, *kms.ListGrantsResponse) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -1099,7 +1099,7 @@ func (_m *KMSAPI) ListRetirableGrantsRequest(_a0 *kms.ListRetirableGrantsInput) 
 }
 
 // ListRetirableGrants provides a mock function with given fields: _a0
-func (_m *KMSAPI) ListRetirableGrants(_a0 *kms.ListRetirableGrantsInput) (*kms.ListGrantsResponse, error) {
+func (_m *MockKMSAPI) ListRetirableGrants(_a0 *kms.ListRetirableGrantsInput) (*kms.ListGrantsResponse, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.ListGrantsResponse
@@ -1122,7 +1122,7 @@ func (_m *KMSAPI) ListRetirableGrants(_a0 *kms.ListRetirableGrantsInput) (*kms.L
 }
 
 // PutKeyPolicyRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) PutKeyPolicyRequest(_a0 *kms.PutKeyPolicyInput) (*request.Request, *kms.PutKeyPolicyOutput) {
+func (_m *MockKMSAPI) PutKeyPolicyRequest(_a0 *kms.PutKeyPolicyInput) (*request.Request, *kms.PutKeyPolicyOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -1147,7 +1147,7 @@ func (_m *KMSAPI) PutKeyPolicyRequest(_a0 *kms.PutKeyPolicyInput) (*request.Requ
 }
 
 // PutKeyPolicy provides a mock function with given fields: _a0
-func (_m *KMSAPI) PutKeyPolicy(_a0 *kms.PutKeyPolicyInput) (*kms.PutKeyPolicyOutput, error) {
+func (_m *MockKMSAPI) PutKeyPolicy(_a0 *kms.PutKeyPolicyInput) (*kms.PutKeyPolicyOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.PutKeyPolicyOutput
@@ -1170,7 +1170,7 @@ func (_m *KMSAPI) PutKeyPolicy(_a0 *kms.PutKeyPolicyInput) (*kms.PutKeyPolicyOut
 }
 
 // ReEncryptRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) ReEncryptRequest(_a0 *kms.ReEncryptInput) (*request.Request, *kms.ReEncryptOutput) {
+func (_m *MockKMSAPI) ReEncryptRequest(_a0 *kms.ReEncryptInput) (*request.Request, *kms.ReEncryptOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -1195,7 +1195,7 @@ func (_m *KMSAPI) ReEncryptRequest(_a0 *kms.ReEncryptInput) (*request.Request, *
 }
 
 // ReEncrypt provides a mock function with given fields: _a0
-func (_m *KMSAPI) ReEncrypt(_a0 *kms.ReEncryptInput) (*kms.ReEncryptOutput, error) {
+func (_m *MockKMSAPI) ReEncrypt(_a0 *kms.ReEncryptInput) (*kms.ReEncryptOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.ReEncryptOutput
@@ -1218,7 +1218,7 @@ func (_m *KMSAPI) ReEncrypt(_a0 *kms.ReEncryptInput) (*kms.ReEncryptOutput, erro
 }
 
 // RetireGrantRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) RetireGrantRequest(_a0 *kms.RetireGrantInput) (*request.Request, *kms.RetireGrantOutput) {
+func (_m *MockKMSAPI) RetireGrantRequest(_a0 *kms.RetireGrantInput) (*request.Request, *kms.RetireGrantOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -1243,7 +1243,7 @@ func (_m *KMSAPI) RetireGrantRequest(_a0 *kms.RetireGrantInput) (*request.Reques
 }
 
 // RetireGrant provides a mock function with given fields: _a0
-func (_m *KMSAPI) RetireGrant(_a0 *kms.RetireGrantInput) (*kms.RetireGrantOutput, error) {
+func (_m *MockKMSAPI) RetireGrant(_a0 *kms.RetireGrantInput) (*kms.RetireGrantOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.RetireGrantOutput
@@ -1266,7 +1266,7 @@ func (_m *KMSAPI) RetireGrant(_a0 *kms.RetireGrantInput) (*kms.RetireGrantOutput
 }
 
 // RevokeGrantRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) RevokeGrantRequest(_a0 *kms.RevokeGrantInput) (*request.Request, *kms.RevokeGrantOutput) {
+func (_m *MockKMSAPI) RevokeGrantRequest(_a0 *kms.RevokeGrantInput) (*request.Request, *kms.RevokeGrantOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -1291,7 +1291,7 @@ func (_m *KMSAPI) RevokeGrantRequest(_a0 *kms.RevokeGrantInput) (*request.Reques
 }
 
 // RevokeGrant provides a mock function with given fields: _a0
-func (_m *KMSAPI) RevokeGrant(_a0 *kms.RevokeGrantInput) (*kms.RevokeGrantOutput, error) {
+func (_m *MockKMSAPI) RevokeGrant(_a0 *kms.RevokeGrantInput) (*kms.RevokeGrantOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.RevokeGrantOutput
@@ -1314,7 +1314,7 @@ func (_m *KMSAPI) RevokeGrant(_a0 *kms.RevokeGrantInput) (*kms.RevokeGrantOutput
 }
 
 // ScheduleKeyDeletionRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) ScheduleKeyDeletionRequest(_a0 *kms.ScheduleKeyDeletionInput) (*request.Request, *kms.ScheduleKeyDeletionOutput) {
+func (_m *MockKMSAPI) ScheduleKeyDeletionRequest(_a0 *kms.ScheduleKeyDeletionInput) (*request.Request, *kms.ScheduleKeyDeletionOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -1339,7 +1339,7 @@ func (_m *KMSAPI) ScheduleKeyDeletionRequest(_a0 *kms.ScheduleKeyDeletionInput) 
 }
 
 // ScheduleKeyDeletion provides a mock function with given fields: _a0
-func (_m *KMSAPI) ScheduleKeyDeletion(_a0 *kms.ScheduleKeyDeletionInput) (*kms.ScheduleKeyDeletionOutput, error) {
+func (_m *MockKMSAPI) ScheduleKeyDeletion(_a0 *kms.ScheduleKeyDeletionInput) (*kms.ScheduleKeyDeletionOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.ScheduleKeyDeletionOutput
@@ -1362,7 +1362,7 @@ func (_m *KMSAPI) ScheduleKeyDeletion(_a0 *kms.ScheduleKeyDeletionInput) (*kms.S
 }
 
 // UpdateAliasRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) UpdateAliasRequest(_a0 *kms.UpdateAliasInput) (*request.Request, *kms.UpdateAliasOutput) {
+func (_m *MockKMSAPI) UpdateAliasRequest(_a0 *kms.UpdateAliasInput) (*request.Request, *kms.UpdateAliasOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -1387,7 +1387,7 @@ func (_m *KMSAPI) UpdateAliasRequest(_a0 *kms.UpdateAliasInput) (*request.Reques
 }
 
 // UpdateAlias provides a mock function with given fields: _a0
-func (_m *KMSAPI) UpdateAlias(_a0 *kms.UpdateAliasInput) (*kms.UpdateAliasOutput, error) {
+func (_m *MockKMSAPI) UpdateAlias(_a0 *kms.UpdateAliasInput) (*kms.UpdateAliasOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.UpdateAliasOutput
@@ -1410,7 +1410,7 @@ func (_m *KMSAPI) UpdateAlias(_a0 *kms.UpdateAliasInput) (*kms.UpdateAliasOutput
 }
 
 // UpdateKeyDescriptionRequest provides a mock function with given fields: _a0
-func (_m *KMSAPI) UpdateKeyDescriptionRequest(_a0 *kms.UpdateKeyDescriptionInput) (*request.Request, *kms.UpdateKeyDescriptionOutput) {
+func (_m *MockKMSAPI) UpdateKeyDescriptionRequest(_a0 *kms.UpdateKeyDescriptionInput) (*request.Request, *kms.UpdateKeyDescriptionOutput) {
 	ret := _m.Called(_a0)
 
 	var r0 *request.Request
@@ -1435,7 +1435,7 @@ func (_m *KMSAPI) UpdateKeyDescriptionRequest(_a0 *kms.UpdateKeyDescriptionInput
 }
 
 // UpdateKeyDescription provides a mock function with given fields: _a0
-func (_m *KMSAPI) UpdateKeyDescription(_a0 *kms.UpdateKeyDescriptionInput) (*kms.UpdateKeyDescriptionOutput, error) {
+func (_m *MockKMSAPI) UpdateKeyDescription(_a0 *kms.UpdateKeyDescriptionInput) (*kms.UpdateKeyDescriptionOutput, error) {
 	ret := _m.Called(_a0)
 
 	var r0 *kms.UpdateKeyDescriptionOutput

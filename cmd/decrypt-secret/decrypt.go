@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/Zemanta/go-secretcrypt/internal"
+	"github.com/Zemanta/go-secretcrypt"
 	"github.com/docopt/docopt-go"
 )
 
@@ -14,7 +14,7 @@ Usage:
   decrypt-secret <secret>
 `
 	arguments, _ := docopt.Parse(usage, nil, true, "0.1", false)
-	secret, err := internal.NewSecretFromString(arguments["<secret>"].(string))
+	secret, err := secretcrypt.NewSecret(arguments["<secret>"].(string))
 	if err != nil {
 		fmt.Println("Error parsing secret:", err)
 		return

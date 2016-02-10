@@ -4,18 +4,22 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Zemanta/go-secretcrypt"
 	"github.com/Zemanta/go-secretcrypt/internal"
 	"github.com/docopt/docopt-go"
 	"github.com/mattn/go-isatty"
 )
 
-func encryptSecret(crypter internal.Crypter, plaintext string, encryptParams internal.EncryptParams) (secretcrypt.Secret, error) {
+func encryptSecret(crypter internal.Crypter, plaintext string, encryptParams internal.EncryptParams) (string, error) {
 	ciphertext, decryptParams, err := crypter.Encrypt(plaintext, encryptParams)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return internal.NewSecret(crypter, decryptParams, ciphertext), nil
+	return fmt.Sprintf(
+		"%s:%s:%s",
+		crypter.Name(),
+		internal.UnparseDecryptParams(decryptParams),
+		ciphertext,
+	), nil
 }
 
 func main() {
@@ -33,11 +37,11 @@ Options:
 
 	var myCrypter internal.Crypter
 	var encryptParams = make(internal.EncryptParams)
-	if _, exists := arguments["kms"]; exists {
+	if arguments["kms"].(bool) {
 		myCrypter = internal.CryptersMap["kms"]
 		encryptParams["region"] = arguments["--region"].(string)
 		encryptParams["keyId"] = arguments["<key_id>"].(string)
-	} else if _, exists = arguments["local"]; exists {
+	} else if arguments["local"].(bool) {
 		myCrypter = internal.CryptersMap["local"]
 	}
 
@@ -55,11 +59,5 @@ Options:
 		fmt.Println("Error encrypting:", err)
 		return
 	}
-	text, err := secret.MarshalText()
-	if err != nil {
-		fmt.Println("Error marshalling secret to text:", err)
-		return
-	}
-
-	fmt.Println(string(text))
+	fmt.Println(secret)
 }

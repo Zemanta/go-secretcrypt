@@ -3,14 +3,13 @@ package internal
 import (
 	"testing"
 
-	"github.com/Zemanta/go-secretcrypt/internal/mocks"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/kms"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestKms(t *testing.T) {
-	mockKMS := &mocks.KMSAPI{}
+	mockKMS := &MockKMSAPI{}
 	defer mockKMS.AssertExpectations(t)
 	kmsClients["myregion"] = mockKMS
 	kmsCrypter := KMSCrypter{}
