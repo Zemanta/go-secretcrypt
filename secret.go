@@ -31,7 +31,7 @@ func (s Secret) MarshalText() (text []byte, err error) {
 
 // UnmarshalText loads the secret from its textual representation
 func (s *Secret) UnmarshalText(text []byte) error {
-	tokens := strings.Split(string(text), ":")
+	tokens := strings.SplitN(string(text), ":", 3)
 	if len(tokens) < 3 {
 		return fmt.Errorf("Malformed secret '%s'", text)
 	}
@@ -48,7 +48,7 @@ func (s *Secret) UnmarshalText(text []byte) error {
 		return fmt.Errorf("Invalid decryption parameters in secret %s: %s", text, err)
 	}
 
-	s.ciphertext = internal.Ciphertext(strings.Join(tokens[2:], ":"))
+	s.ciphertext = internal.Ciphertext(tokens[2])
 	return nil
 }
 

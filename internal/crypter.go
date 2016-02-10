@@ -1,7 +1,6 @@
 package internal
 
 var crypters = []Crypter{
-	PlainCrypter{},
 	KMSCrypter{},
 	LocalCrypter{},
 }

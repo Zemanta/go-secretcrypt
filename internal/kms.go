@@ -45,19 +45,19 @@ func (c KMSCrypter) Encrypt(plaintext string, encryptParams EncryptParams) (Ciph
 		return Ciphertext(""), nil, err
 	}
 
-	myCiphertext := base64.StdEncoding.EncodeToString(resp.CiphertextBlob)
+	ciphertext := base64.StdEncoding.EncodeToString(resp.CiphertextBlob)
 	myDecryptParams := kmsDecryptParams{Region: params.Region}
-	return Ciphertext(myCiphertext), encodeDecryptParams(myDecryptParams), nil
+	return Ciphertext(ciphertext), encodeDecryptParams(myDecryptParams), nil
 }
 
-func (c KMSCrypter) Decrypt(myCiphertext Ciphertext, decryptParams DecryptParams) (string, error) {
+func (c KMSCrypter) Decrypt(ciphertext Ciphertext, decryptParams DecryptParams) (string, error) {
 	var params kmsDecryptParams
 	decodeDecryptParams(decryptParams, &params)
 
-	myCiphertextBlob, err := base64.StdEncoding.DecodeString(string(myCiphertext))
+	ciphertextBlob, err := base64.StdEncoding.DecodeString(string(ciphertext))
 	resp, err := kmsClient(params.Region).Decrypt(
 		&kms.DecryptInput{
-			CiphertextBlob: myCiphertextBlob,
+			CiphertextBlob: ciphertextBlob,
 		},
 	)
 	if err != nil {

@@ -1,11 +1,19 @@
 package secretcrypt
 
 import (
+	"flag"
+	"os"
 	"testing"
 
 	"github.com/Zemanta/go-secretcrypt/internal"
 	"github.com/stretchr/testify/assert"
 )
+
+func TestMain(m *testing.M) {
+	internal.CryptersMap["plain"] = internal.PlainCrypter{}
+	flag.Parse()
+	os.Exit(m.Run())
+}
 
 func assertSecretValid(t *testing.T, secret Secret) {
 	assert.Equal(t, "plain", secret.crypter.Name())

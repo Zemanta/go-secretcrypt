@@ -5,6 +5,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
+	"encoding/base64"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -42,19 +43,20 @@ func (c LocalCrypter) Encrypt(plaintext string, encryptParams EncryptParams) (Ci
 		return "", nil, fmt.Errorf("Error creating AES cipher: %s", err)
 	}
 
-	myCiphertext := make([]byte, aes.BlockSize+len(plaintext))
-	iv := myCiphertext[:aes.BlockSize]
+	ciphertext := make([]byte, aes.BlockSize+len(plaintext))
+	iv := ciphertext[:aes.BlockSize]
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
 		return "", nil, fmt.Errorf("Error initializing IV: %s", err)
 	}
 
 	mode := cipher.NewCBCEncrypter(block, iv)
-	mode.CryptBlocks(myCiphertext[aes.BlockSize:], []byte(plaintext))
+	mode.CryptBlocks(ciphertext[aes.BlockSize:], []byte(plaintext))
 
-	return Ciphertext(myCiphertext), nil, nil
+	b64Ciphertext := base64.StdEncoding.EncodeToString(ciphertext)
+	return Ciphertext(b64Ciphertext), nil, nil
 }
 
-func (c LocalCrypter) Decrypt(myCiphertext Ciphertext, decryptParams DecryptParams) (string, error) {
+func (c LocalCrypter) Decrypt(b64ciphertext Ciphertext, decryptParams DecryptParams) (string, error) {
 	key, err := localKey()
 	if err != nil {
 		return "", fmt.Errorf("Error retrieving local key: %s", err)
@@ -64,20 +66,24 @@ func (c LocalCrypter) Decrypt(myCiphertext Ciphertext, decryptParams DecryptPara
 		return "", fmt.Errorf("Error creating AES cipher: %s", err)
 	}
 
-	if len(myCiphertext) < aes.BlockSize {
-		return "", fmt.Errorf("Ciphertext too short in secret '%s'", myCiphertext)
+	ciphertext, err := base64.StdEncoding.DecodeString(string(b64ciphertext))
+	if err != nil {
+		return "", fmt.Errorf("Ciphertext is not valid base64 encoded in secret '%s'", b64ciphertext)
 	}
-	iv := []byte(myCiphertext[:aes.BlockSize])
-	myCiphertext = myCiphertext[aes.BlockSize:]
+	if len(ciphertext) < aes.BlockSize {
+		return "", fmt.Errorf("Ciphertext too short in secret '%s'", ciphertext)
+	}
+	iv := []byte(ciphertext[:aes.BlockSize])
+	ciphertext = ciphertext[aes.BlockSize:]
 
-	if len(myCiphertext)%aes.BlockSize != 0 {
-		return "", fmt.Errorf("Ciphertext is not a multiple of the block size in secret '%s'", myCiphertext)
+	if len(ciphertext)%aes.BlockSize != 0 {
+		return "", fmt.Errorf("Ciphertext is not a multiple of the block size in secret '%s'", ciphertext)
 	}
 
 	mode := cipher.NewCBCDecrypter(block, iv)
 
-	plaintext := make([]byte, len(myCiphertext))
-	mode.CryptBlocks(plaintext, []byte(myCiphertext))
+	plaintext := make([]byte, len(ciphertext))
+	mode.CryptBlocks(plaintext, []byte(ciphertext))
 
 	length := len(plaintext)
 	unpadding := int(plaintext[length-1])

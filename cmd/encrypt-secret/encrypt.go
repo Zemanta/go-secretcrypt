@@ -35,16 +35,17 @@ Options:
 
 	arguments, _ := docopt.Parse(usage, nil, true, "0.1", false)
 
-	var myCrypter internal.Crypter
+	var crypter internal.Crypter
 	var encryptParams = make(internal.EncryptParams)
 	if arguments["kms"].(bool) {
-		myCrypter = internal.CryptersMap["kms"]
+		crypter = internal.CryptersMap["kms"]
 		encryptParams["region"] = arguments["--region"].(string)
 		encryptParams["keyId"] = arguments["<key_id>"].(string)
 	} else if arguments["local"].(bool) {
-		myCrypter = internal.CryptersMap["local"]
+		crypter = internal.CryptersMap["local"]
 	}
 
+	// do not print prompt if input is being piped
 	if isatty.IsTerminal(os.Stdin.Fd()) {
 		fmt.Printf("Enter plaintext: ")
 	}
@@ -54,7 +55,7 @@ Options:
 		fmt.Println("Invalid plaintext input!", err)
 		return
 	}
-	secret, err := encryptSecret(myCrypter, plaintext, encryptParams)
+	secret, err := encryptSecret(crypter, plaintext, encryptParams)
 	if err != nil {
 		fmt.Println("Error encrypting:", err)
 		return
