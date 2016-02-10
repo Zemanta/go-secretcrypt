@@ -10,11 +10,10 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"os/user"
 	"path"
 	"runtime"
 	"sync"
-
-	"github.com/mitchellh/go-homedir"
 )
 
 type LocalCrypter struct{}
@@ -147,10 +146,11 @@ type keyPathGetter interface {
 type userDataKeyPathGetter struct{}
 
 func (g userDataKeyPathGetter) keyPaths() (string, string, error) {
-	homeDir, err := homedir.Dir()
+	currentUser, err := user.Current()
 	if err != nil {
 		return "", "", err
 	}
+	homeDir := currentUser.HomeDir
 
 	var dataDir string
 	switch runtime.GOOS {
