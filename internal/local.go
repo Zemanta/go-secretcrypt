@@ -114,7 +114,11 @@ func localKey() ([]byte, error) {
 
 	// if key file already exists
 	if _, err := os.Stat(keyFilePath); err == nil {
-		key, err = ioutil.ReadFile(keyFilePath)
+		keyB64, err := ioutil.ReadFile(keyFilePath)
+		if err != nil {
+			return nil, err
+		}
+		key, err = base64.StdEncoding.DecodeString(string(keyB64))
 		if err != nil {
 			return nil, err
 		}
@@ -132,7 +136,8 @@ func localKey() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = ioutil.WriteFile(keyFilePath, key, 0644)
+	keyB64 := base64.StdEncoding.EncodeToString(key)
+	err = ioutil.WriteFile(keyFilePath, []byte(keyB64), 0644)
 	if err != nil {
 		return nil, err
 	}
