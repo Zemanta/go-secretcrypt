@@ -2,7 +2,7 @@
 
 **WARNING**: this software is in alpha state, use with caution.
 
-Utility for keeping your secrets encrypted.
+Utility for keeping your secrets encrypted. Also has a [Python version](https://github.com/Zemanta/py-secretcrypt).
 
 For example, you have the following TOML (or any format whose decoder supports TextUnmarshaler interface for custom values) configuration file
 
