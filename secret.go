@@ -7,14 +7,14 @@ import (
 	"github.com/Zemanta/go-secretcrypt/internal"
 )
 
-// Secret represents an encrypted secret
+// Secret represents an encrypted secret.
 type Secret struct {
 	crypter       internal.Crypter
 	ciphertext    internal.Ciphertext
 	decryptParams internal.DecryptParams
 }
 
-// Decrypt decrypts the secret
+// Decrypt decrypts the secret and returns the plaintext.
 func (s Secret) Decrypt() (string, error) {
 	if s.crypter == nil || s.ciphertext == "" {
 		return "", fmt.Errorf("Cannot decrypt a zero secret!")
@@ -22,7 +22,7 @@ func (s Secret) Decrypt() (string, error) {
 	return s.crypter.Decrypt(s.ciphertext, s.decryptParams)
 }
 
-// MarshalText marshalls the secret into its textual representation
+// MarshalText marshalls the secret into its textual representation.
 func (s Secret) MarshalText() (text []byte, err error) {
 	return []byte(fmt.Sprintf(
 		"%s:%s:%s",
@@ -32,7 +32,7 @@ func (s Secret) MarshalText() (text []byte, err error) {
 	)), nil
 }
 
-// UnmarshalText loads the secret from its textual representation
+// UnmarshalText loads the secret from its textual representation.
 func (s *Secret) UnmarshalText(text []byte) error {
 	tokens := strings.SplitN(string(text), ":", 3)
 	if len(tokens) < 3 {
@@ -55,8 +55,8 @@ func (s *Secret) UnmarshalText(text []byte) error {
 	return nil
 }
 
-// NewSecret creates a Secret object from a string
-func NewSecret(textSecret string) (Secret, error) {
+// LoadSecret loads a Secret from a string.
+func LoadSecret(textSecret string) (Secret, error) {
 	secret := Secret{}
 	err := secret.UnmarshalText([]byte(textSecret))
 	return secret, err

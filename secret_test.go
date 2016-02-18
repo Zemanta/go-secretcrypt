@@ -32,7 +32,7 @@ func TestUnmarshalText(t *testing.T) {
 }
 
 func TestNewSecret(t *testing.T) {
-	secret, err := NewSecret("plain:k1=v1&k2=v2:my-abc")
+	secret, err := LoadSecret("plain:k1=v1&k2=v2:my-abc")
 	assert.Nil(t, err)
 	assertSecretValid(t, secret)
 }
@@ -48,7 +48,7 @@ func TestDecrypt(t *testing.T) {
 			"k2": "v2",
 		}).Return("myplaintext", nil)
 
-	secret, err := NewSecret("mock:k1=v1&k2=v2:my-abc")
+	secret, err := LoadSecret("mock:k1=v1&k2=v2:my-abc")
 	assert.NoError(t, err)
 
 	plaintext, err := secret.Decrypt()

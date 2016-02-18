@@ -8,7 +8,7 @@ import (
 )
 
 func decryptSecret(secretStr string) {
-	secret, err := secretcrypt.NewSecret(secretStr)
+	secret, err := secretcrypt.LoadSecret(secretStr)
 	if err != nil {
 		fmt.Println("Error parsing secret:", err)
 		return
