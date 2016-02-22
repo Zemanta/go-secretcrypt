@@ -15,7 +15,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func assertSecretValid(t *testing.T, secret Secret) {
+func assertSecretValid(t *testing.T, secret *Secret) {
 	assert.Equal(t, "plain", secret.crypter.Name())
 	assert.Equal(t, "my-abc", string(secret.ciphertext))
 	assert.Equal(t, internal.DecryptParams{
@@ -28,7 +28,7 @@ func TestUnmarshalText(t *testing.T) {
 	var secret Secret
 	err := secret.UnmarshalText([]byte("plain:k1=v1&k2=v2:my-abc"))
 	assert.Nil(t, err)
-	assertSecretValid(t, secret)
+	assertSecretValid(t, &secret)
 }
 
 func TestNewSecret(t *testing.T) {
@@ -55,4 +55,29 @@ func TestDecrypt(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, plaintext, "myplaintext")
 	mockCrypter.AssertExpectations(t)
+}
+
+func TestCaching(t *testing.T) {
+	mockCrypter := &internal.MockCrypter{}
+	internal.CryptersMap["mock"] = mockCrypter
+	mockCrypter.On(
+		"Decrypt",
+		internal.Ciphertext("my-abc"),
+		internal.DecryptParams{
+			"k1": "v1",
+			"k2": "v2",
+		}).Return("myplaintext", nil)
+
+	secret, err := LoadSecret("mock:k1=v1&k2=v2:my-abc")
+	assert.NoError(t, err)
+
+	plaintext, err := secret.Decrypt()
+	assert.NoError(t, err)
+	assert.Equal(t, plaintext, "myplaintext")
+	plaintext2, err := secret.Decrypt()
+	assert.NoError(t, err)
+	assert.Equal(t, plaintext2, "myplaintext")
+
+	mockCrypter.AssertExpectations(t)
+	mockCrypter.AssertNumberOfCalls(t, "Decrypt", 1)
 }

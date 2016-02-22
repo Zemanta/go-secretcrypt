@@ -3,27 +3,45 @@ package secretcrypt
 import (
 	"fmt"
 	"strings"
+	"sync"
 
 	"github.com/Zemanta/go-secretcrypt/internal"
 )
 
 // Secret represents an encrypted secret.
 type Secret struct {
+	lock          sync.RWMutex
 	crypter       internal.Crypter
 	ciphertext    internal.Ciphertext
+	plaintext     string
+	cached        bool
 	decryptParams internal.DecryptParams
 }
 
 // Decrypt decrypts the secret and returns the plaintext.
-func (s Secret) Decrypt() (string, error) {
+func (s *Secret) Decrypt() (string, error) {
 	if s.crypter == nil || s.ciphertext == "" {
 		return "", fmt.Errorf("Cannot decrypt a zero secret!")
 	}
-	return s.crypter.Decrypt(s.ciphertext, s.decryptParams)
+	s.lock.RLock()
+	if s.cached {
+		defer s.lock.RUnlock()
+		return s.plaintext, nil
+	}
+	s.lock.RUnlock()
+	s.lock.Lock()
+	defer s.lock.Unlock()
+	if s.cached {
+		return s.plaintext, nil
+	}
+	plaintext, err := s.crypter.Decrypt(s.ciphertext, s.decryptParams)
+	s.plaintext = plaintext
+	s.cached = true
+	return plaintext, err
 }
 
 // MarshalText marshalls the secret into its textual representation.
-func (s Secret) MarshalText() (text []byte, err error) {
+func (s *Secret) MarshalText() (text []byte, err error) {
 	return []byte(fmt.Sprintf(
 		"%s:%s:%s",
 		s.crypter.Name(),
@@ -55,9 +73,19 @@ func (s *Secret) UnmarshalText(text []byte) error {
 	return nil
 }
 
+func (s *Secret) String() string {
+	return string(s.ciphertext)
+}
+
+// GoString ensures plaintext is not leaked when formatting the Secret object
+// with %#v.
+func (s *Secret) GoString() string {
+	return string(s.ciphertext)
+}
+
 // LoadSecret loads a Secret from a string.
-func LoadSecret(textSecret string) (Secret, error) {
-	secret := Secret{}
+func LoadSecret(textSecret string) (*Secret, error) {
+	secret := &Secret{}
 	err := secret.UnmarshalText([]byte(textSecret))
 	return secret, err
 }
