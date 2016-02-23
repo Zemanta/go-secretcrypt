@@ -10,11 +10,10 @@ import (
 
 // Secret represents an encrypted secret.
 type Secret struct {
-	lock          sync.RWMutex
+	once          sync.Once
 	crypter       internal.Crypter
 	ciphertext    internal.Ciphertext
 	plaintext     string
-	cached        bool
 	decryptParams internal.DecryptParams
 }
 
@@ -23,21 +22,11 @@ func (s *Secret) Decrypt() (string, error) {
 	if s.crypter == nil || s.ciphertext == "" {
 		return "", fmt.Errorf("Cannot decrypt a zero secret!")
 	}
-	s.lock.RLock()
-	if s.cached {
-		defer s.lock.RUnlock()
-		return s.plaintext, nil
-	}
-	s.lock.RUnlock()
-	s.lock.Lock()
-	defer s.lock.Unlock()
-	if s.cached {
-		return s.plaintext, nil
-	}
-	plaintext, err := s.crypter.Decrypt(s.ciphertext, s.decryptParams)
-	s.plaintext = plaintext
-	s.cached = true
-	return plaintext, err
+	var err error
+	s.once.Do(func() {
+		s.plaintext, err = s.crypter.Decrypt(s.ciphertext, s.decryptParams)
+	})
+	return s.plaintext, err
 }
 
 // MarshalText marshalls the secret into its textual representation.
