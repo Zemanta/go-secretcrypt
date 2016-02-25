@@ -81,3 +81,14 @@ func TestCaching(t *testing.T) {
 	mockCrypter.AssertExpectations(t)
 	mockCrypter.AssertNumberOfCalls(t, "Decrypt", 1)
 }
+
+func TestEmptySecret(t *testing.T) {
+	zero := &Secret{}
+	emptyStr, err := LoadSecret("")
+	assert.NoError(t, err)
+	for _, secret := range []*Secret{zero, emptyStr} {
+		plaintext, err := secret.Decrypt()
+		assert.NoError(t, err)
+		assert.Equal(t, plaintext, "")
+	}
+}
