@@ -20,7 +20,7 @@ type Secret struct {
 // Decrypt decrypts the secret and returns the plaintext.
 func (s *Secret) Decrypt() (string, error) {
 	if s.crypter == nil || s.ciphertext == "" {
-		return "", fmt.Errorf("Cannot decrypt a zero secret!")
+		return "", nil
 	}
 	var err error
 	s.once.Do(func() {
@@ -41,6 +41,9 @@ func (s *Secret) MarshalText() (text []byte, err error) {
 
 // UnmarshalText loads the secret from its textual representation.
 func (s *Secret) UnmarshalText(text []byte) error {
+	if len(text) == 0 {
+		return nil
+	}
 	tokens := strings.SplitN(string(text), ":", 3)
 	if len(tokens) < 3 {
 		return fmt.Errorf("Malformed secret '%s'", text)

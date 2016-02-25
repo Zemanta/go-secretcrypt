@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 
 	"github.com/Zemanta/go-secretcrypt/internal"
@@ -26,11 +27,12 @@ func main() {
 	usage := `Encrypts secrets. Reads secrets as user input or from standard input.
 
 Usage:
-  encrypt-secret kms [--region=<region_name>] <key_id>
-  encrypt-secret local
+  encrypt-secret [options] kms [--region=<region_name>] <key_id>
+  encrypt-secret [options] local
 
 Options:
   --region=<region_name>    AWS Region Name [default: us-east-1]
+	--multiline               Multiline input (read stdin bytes until EOF)
 `
 
 	arguments, _ := docopt.Parse(usage, nil, true, "0.1", false)
@@ -47,10 +49,18 @@ Options:
 
 	// do not print prompt if input is being piped
 	if isatty.IsTerminal(os.Stdin.Fd()) {
-		fmt.Printf("Enter plaintext: ")
+		fmt.Fprintf(os.Stderr, "Enter plaintext: ")
 	}
+
 	var plaintext string
-	_, err := fmt.Scanln(&plaintext)
+	var err error
+	if arguments["--multiline"].(bool) {
+		var plainbytes []byte
+		plainbytes, err = ioutil.ReadAll(os.Stdin)
+		plaintext = string(plainbytes)
+	} else {
+		_, err = fmt.Scanln(&plaintext)
+	}
 	if err != nil {
 		fmt.Println("Invalid plaintext input!", err)
 		return
