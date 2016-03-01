@@ -3,34 +3,32 @@ package secretcrypt
 import (
 	"fmt"
 	"strings"
-	"sync"
 
 	"github.com/Zemanta/go-secretcrypt/internal"
 )
 
-// Secret represents an encrypted secret.
-type Secret struct {
-	once          sync.Once
+// StrictSecret represents an encrypted secret that is decrypted on demand.
+// Decrypting this secret may incur a side-effect such as a call to a remote
+// service for decryption.
+type StrictSecret struct {
 	crypter       internal.Crypter
 	ciphertext    internal.Ciphertext
-	plaintext     string
 	decryptParams internal.DecryptParams
 }
 
-// Decrypt decrypts the secret and returns the plaintext.
-func (s *Secret) Decrypt() (string, error) {
+// Decrypt decrypts the secret and returns the plaintext. Calling Decrypt()
+// may incur side effects such as a call to a remote service for decryption.
+func (s *StrictSecret) Decrypt() (string, error) {
 	if s.crypter == nil || s.ciphertext == "" {
 		return "", nil
 	}
 	var err error
-	s.once.Do(func() {
-		s.plaintext, err = s.crypter.Decrypt(s.ciphertext, s.decryptParams)
-	})
-	return s.plaintext, err
+	plaintext, err := s.crypter.Decrypt(s.ciphertext, s.decryptParams)
+	return plaintext, err
 }
 
 // MarshalText marshalls the secret into its textual representation.
-func (s *Secret) MarshalText() (text []byte, err error) {
+func (s *StrictSecret) MarshalText() (text []byte, err error) {
 	return []byte(fmt.Sprintf(
 		"%s:%s:%s",
 		s.crypter.Name(),
@@ -40,7 +38,7 @@ func (s *Secret) MarshalText() (text []byte, err error) {
 }
 
 // UnmarshalText loads the secret from its textual representation.
-func (s *Secret) UnmarshalText(text []byte) error {
+func (s *StrictSecret) UnmarshalText(text []byte) error {
 	if len(text) == 0 {
 		return nil
 	}
@@ -65,14 +63,60 @@ func (s *Secret) UnmarshalText(text []byte) error {
 	return nil
 }
 
-func (s *Secret) String() string {
+func (s *StrictSecret) String() string {
 	return string(s.ciphertext)
 }
 
-// GoString ensures plaintext is not leaked when formatting the Secret object
+// GoString ensures plaintext is not leaked when formatting the StrictSecret object
+// with %#v.
+func (s *StrictSecret) GoString() string {
+	return string(s.ciphertext)
+}
+
+// LoadStrictSecret loads a StrictSecret from a string.
+func LoadStrictSecret(textStrictSecret string) (*StrictSecret, error) {
+	secret := &StrictSecret{}
+	err := secret.UnmarshalText([]byte(textStrictSecret))
+	return secret, err
+}
+
+// Secret represents a secret that is eagerly decrypted on object creation.
+// After that, using this secret does not incur any side effects.
+type Secret struct {
+	secret    string
+	plaintext string
+}
+
+// Get returns the secret in plain text. Calling Get() does not incur any side
+// effects.
+func (s Secret) Get() string {
+	return s.plaintext
+}
+
+// MarshalText marshalls the secret into its textual representation.
+func (s *Secret) MarshalText() (text []byte, err error) {
+	return []byte(s.secret), nil
+}
+
+// UnmarshalText loads the secret from its textual representation.
+func (s *Secret) UnmarshalText(text []byte) error {
+	var strictSecret StrictSecret
+	err := strictSecret.UnmarshalText(text)
+	if err != nil {
+		return err
+	}
+	s.plaintext, err = strictSecret.Decrypt()
+	return err
+}
+
+func (s *Secret) String() string {
+	return "<redacted>"
+}
+
+// GoString ensures plaintext is not leaked when formatting the StrictSecret object
 // with %#v.
 func (s *Secret) GoString() string {
-	return string(s.ciphertext)
+	return "<redacted>"
 }
 
 // LoadSecret loads a Secret from a string.
