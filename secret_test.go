@@ -15,7 +15,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func assertStrictSecretValid(t *testing.T, secret *StrictSecret) {
+func assertStrictSecretValid(t *testing.T, secret StrictSecret) {
 	assert.Equal(t, "plain", secret.crypter.Name())
 	assert.Equal(t, "my-abc", string(secret.ciphertext))
 	assert.Equal(t, internal.DecryptParams{
@@ -28,7 +28,7 @@ func TestUnmarshalText(t *testing.T) {
 	var secret StrictSecret
 	err := secret.UnmarshalText([]byte("plain:k1=v1&k2=v2:my-abc"))
 	assert.Nil(t, err)
-	assertStrictSecretValid(t, &secret)
+	assertStrictSecretValid(t, secret)
 }
 
 func TestNewStrictSecret(t *testing.T) {
@@ -83,10 +83,10 @@ func TestNoCaching(t *testing.T) {
 }
 
 func TestEmptyStrictSecret(t *testing.T) {
-	zero := &StrictSecret{}
+	zero := StrictSecret{}
 	emptyStr, err := LoadStrictSecret("")
 	assert.NoError(t, err)
-	for _, secret := range []*StrictSecret{zero, emptyStr} {
+	for _, secret := range []StrictSecret{zero, emptyStr} {
 		plaintext, err := secret.Decrypt()
 		assert.NoError(t, err)
 		assert.Equal(t, plaintext, "")

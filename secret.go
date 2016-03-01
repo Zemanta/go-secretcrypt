@@ -74,8 +74,8 @@ func (s *StrictSecret) GoString() string {
 }
 
 // LoadStrictSecret loads a StrictSecret from a string.
-func LoadStrictSecret(textStrictSecret string) (*StrictSecret, error) {
-	secret := &StrictSecret{}
+func LoadStrictSecret(textStrictSecret string) (StrictSecret, error) {
+	secret := StrictSecret{}
 	err := secret.UnmarshalText([]byte(textStrictSecret))
 	return secret, err
 }
@@ -120,8 +120,8 @@ func (s *Secret) GoString() string {
 }
 
 // LoadSecret loads a Secret from a string.
-func LoadSecret(textSecret string) (*Secret, error) {
-	secret := &Secret{}
+func LoadSecret(textSecret string) (Secret, error) {
+	secret := Secret{}
 	err := secret.UnmarshalText([]byte(textSecret))
 	return secret, err
 }
