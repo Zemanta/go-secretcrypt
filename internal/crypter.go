@@ -3,6 +3,7 @@ package internal
 var crypters = []Crypter{
 	KMSCrypter{},
 	LocalCrypter{},
+	PlainCrypter{},
 }
 
 // CryptersMap contains a mapping to supported crypters
