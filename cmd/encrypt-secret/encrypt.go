@@ -42,7 +42,7 @@ Options:
 	if arguments["kms"].(bool) {
 		crypter = internal.CryptersMap["kms"]
 		encryptParams["region"] = arguments["--region"].(string)
-		encryptParams["keyId"] = arguments["<key_id>"].(string)
+		encryptParams["keyID"] = arguments["<key_id>"].(string)
 	} else if arguments["local"].(bool) {
 		crypter = internal.CryptersMap["local"]
 	}
@@ -55,6 +55,7 @@ Options:
 	var plaintext string
 	var err error
 	if arguments["--multiline"].(bool) {
+		fmt.Fprintf(os.Stderr, "\n")
 		var plainbytes []byte
 		plainbytes, err = ioutil.ReadAll(os.Stdin)
 		plaintext = string(plainbytes)
