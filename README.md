@@ -2,8 +2,6 @@
 
 [![Circle CI](https://circleci.com/gh/Zemanta/go-secretcrypt.svg?style=svg)](https://circleci.com/gh/Zemanta/go-secretcrypt)
 
-**WARNING**: this software is in alpha state, use with caution.
-
 Utility for keeping your secrets encrypted. Also has a [Python version](https://github.com/Zemanta/py-secretcrypt).
 
 For example, you have the following TOML (or any format whose decoder supports TextUnmarshaler interface for custom values) configuration file
