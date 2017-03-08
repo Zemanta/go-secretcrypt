@@ -66,13 +66,15 @@ if err != nil {
 
 ## KMS
 The KMS option uses AWS Key Management Service. When encrypting and decrypting
-KMS secrets, you need to provide which AWS region the is to be or was encrypted
-on, but it defaults to `us-east-1`.
+KMS secrets, you need to provide which AWS region and which AWS profile the is to be or was encrypted
+on, but it defaults to `us-east-1` and `default` respectively.
 
-So if you use a custom region, you must provide it to secretcrypt:
+So if you use a custom region and/or custom profile, you must provide it to secretcrypt:
 
 ```bash
 encrypt-secret kms --region us-west-1 alias/MyKey
+encrypt-secret kms --profile second alias/MyKey
+encrypt-secret kms --region us-west-1 --profile second alias/MyKey
 ```
 
 ## Local encryption
