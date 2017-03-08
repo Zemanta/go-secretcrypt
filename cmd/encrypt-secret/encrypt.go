@@ -27,12 +27,14 @@ func main() {
 	usage := `Encrypts secrets. Reads secrets as user input or from standard input.
 
 Usage:
-  encrypt-secret [options] kms [--region=<region_name>] <key_id>
+  encrypt-secret [options] kms <key_id>
   encrypt-secret [options] local
 
 Options:
+  --help
   --region=<region_name>    AWS Region Name [default: us-east-1]
-	--multiline               Multiline input (read stdin bytes until EOF)
+  --profile=<profile>	    AWS Profile Name [default: default]
+  --multiline               Multiline input (read stdin bytes until EOF)
 `
 
 	arguments, _ := docopt.Parse(usage, nil, true, "0.1", false)
@@ -42,6 +44,7 @@ Options:
 	if arguments["kms"].(bool) {
 		crypter = internal.CryptersMap["kms"]
 		encryptParams["region"] = arguments["--region"].(string)
+		encryptParams["profile"] = arguments["--profile"].(string)
 		encryptParams["keyID"] = arguments["<key_id>"].(string)
 	} else if arguments["local"].(bool) {
 		crypter = internal.CryptersMap["local"]

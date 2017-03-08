@@ -63,6 +63,12 @@ func (s *StrictSecret) UnmarshalText(text []byte) error {
 	return nil
 }
 
+func (s *StrictSecret) AppendParameters(decryptParams internal.DecryptParams) {
+	for key, value := range decryptParams {
+		s.decryptParams[key] = value
+	}
+}
+
 func (s *StrictSecret) String() string {
 	return string(s.ciphertext)
 }
