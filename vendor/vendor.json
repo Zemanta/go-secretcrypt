@@ -1,6 +1,5 @@
 {
 	"comment": "",
-	"ignore": "test",
 	"package": [
 		{
 			"path": "github.com/aws/aws-sdk-go",
