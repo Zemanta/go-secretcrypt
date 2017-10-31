@@ -4,6 +4,7 @@ var crypters = []Crypter{
 	KMSCrypter{},
 	LocalCrypter{},
 	PlainCrypter{},
+	PasswordCrypter{},
 }
 
 // CryptersMap contains a mapping to supported crypters
