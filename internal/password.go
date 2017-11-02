@@ -1,17 +1,16 @@
 package internal
 
 import (
-	"bufio"
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
 	"golang.org/x/crypto/scrypt"
-	"io"
-	"os"
+	"golang.org/x/crypto/ssh/terminal"
+	"syscall"
 )
 
 type PasswordCrypter struct {
-	stdin io.Reader
+	readPassword func(int) ([]byte, error)
 }
 
 func (c PasswordCrypter) Name() string {
@@ -56,14 +55,12 @@ func (c PasswordCrypter) Decrypt(b64ciphertext Ciphertext, decryptParams Decrypt
 }
 
 func (c PasswordCrypter) getKey(salt []byte) ([]byte, error) {
-	stdin := c.stdin
-	if stdin == nil {
-		stdin = os.Stdin
+	if c.readPassword == nil {
+		c.readPassword = terminal.ReadPassword
 	}
-	reader := bufio.NewReader(stdin)
 	fmt.Print("Enter password: ")
-	password, err := reader.ReadString('\n')
-	password = password[:len(password)-1] // trim newline
+	password, err := c.readPassword(int(syscall.Stdin))
+	fmt.Print("\n")
 	if err != nil {
 		return []byte(nil), fmt.Errorf("Error reading password: %s", err)
 	}
