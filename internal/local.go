@@ -29,7 +29,7 @@ func (c LocalCrypter) Encrypt(plaintext string, encryptParams EncryptParams) (Ci
 		return "", nil, fmt.Errorf("Error retrieving local key: %s", err)
 	}
 
-	ciphertext, err := AESEncrypt(key, plaintext, encryptParams)
+	ciphertext, err := AESEncrypt(key, plaintext)
 	if err != nil {
 		return "", nil, fmt.Errorf("Error encrypting plaintext: %s", err)
 	}

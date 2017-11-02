@@ -3,6 +3,7 @@ package internal
 import (
 	"bufio"
 	"crypto/rand"
+	"encoding/base64"
 	"fmt"
 	"golang.org/x/crypto/scrypt"
 	"io"
@@ -18,17 +19,18 @@ func (c PasswordCrypter) Name() string {
 }
 
 func (c PasswordCrypter) Encrypt(plaintext string, encryptParams EncryptParams) (Ciphertext, DecryptParams, error) {
-	salt := make([]byte, 16)
-	_, err := rand.Read(salt)
+	rawSalt := make([]byte, 16)
+	_, err := rand.Read(rawSalt)
 	if err != nil {
 		return "", nil, fmt.Errorf("Error generating salt: %s", err)
 	}
-	key, err := c.getKey(salt)
+	salt := base64.StdEncoding.EncodeToString(rawSalt)
+	key, err := c.getKey([]byte(salt))
 	if err != nil {
 		return "", nil, fmt.Errorf("Error generating encryption key: %s", err)
 	}
 
-	ciphertext, err := AESEncrypt(key, plaintext, encryptParams)
+	ciphertext, err := AESEncrypt(key, plaintext)
 	if err != nil {
 		return "", nil, fmt.Errorf("Error encrypting plaintext: %s", err)
 	}
@@ -61,8 +63,9 @@ func (c PasswordCrypter) getKey(salt []byte) ([]byte, error) {
 	reader := bufio.NewReader(stdin)
 	fmt.Print("Enter password: ")
 	password, err := reader.ReadString('\n')
+	password = password[:len(password)-1] // trim newline
 	if err != nil {
 		return []byte(nil), fmt.Errorf("Error reading password: %s", err)
 	}
-	return scrypt.Key([]byte(password), salt, 32768, 8, 1, 24)
+	return scrypt.Key([]byte(password), salt, 1024, 1, 1, 24)
 }

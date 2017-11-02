@@ -10,7 +10,7 @@ import (
 	"io"
 )
 
-func AESEncrypt(key []byte, plaintext string, encryptParams EncryptParams) (string, error) {
+func AESEncrypt(key []byte, plaintext string) (string, error) {
 	padding := aes.BlockSize - len(plaintext)%aes.BlockSize
 	padtext := string(bytes.Repeat([]byte{byte(padding)}, padding))
 	plaintext = plaintext + padtext
