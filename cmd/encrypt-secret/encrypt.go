@@ -29,6 +29,7 @@ func main() {
 Usage:
   encrypt-secret [options] kms <key_id>
   encrypt-secret [options] local
+  encrypt-secret [options] password
 
 Options:
   --help
@@ -48,6 +49,8 @@ Options:
 		encryptParams["keyID"] = arguments["<key_id>"].(string)
 	} else if arguments["local"].(bool) {
 		crypter = internal.CryptersMap["local"]
+	} else if arguments["password"].(bool) {
+		crypter = internal.CryptersMap["password"]
 	}
 
 	// do not print prompt if input is being piped

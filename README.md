@@ -84,3 +84,10 @@ It generates a local key in your %USER_DATA_DIR%
 be accidentally committed to CVS.
 
 It then uses that key to symmetrically encrypt and decrypt your secrets.
+
+## Password encryption - interactive only
+
+The password encryption mode should not be used in your application - it is
+meant for easily sharing secrets among developers. It interactively prompts
+the user for a password when encrypting the secret. When decrypting, it
+prompts for the password again.
