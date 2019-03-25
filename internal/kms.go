@@ -29,7 +29,7 @@ func (c KMSCrypter) Encrypt(plaintext string, encryptParams EncryptParams) (Ciph
 
 	profile, ok := encryptParams["profile"]
 	if !ok {
-		return Ciphertext(""), nil, fmt.Errorf("Missing profile parameter!")
+		profile = "default"
 	}
 
 	keyID, ok := encryptParams["keyID"]
