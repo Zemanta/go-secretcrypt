@@ -29,7 +29,7 @@ func (c KMSCrypter) Encrypt(plaintext string, encryptParams EncryptParams) (Ciph
 
 	profile, ok := encryptParams["profile"]
 	if !ok {
-		return Ciphertext(""), nil, fmt.Errorf("Missing profile parameter!")
+		profile = "default"
 	}
 
 	keyID, ok := encryptParams["keyID"]
@@ -60,7 +60,7 @@ func (c KMSCrypter) Decrypt(ciphertext Ciphertext, decryptParams DecryptParams) 
 
 	profile, ok := decryptParams["profile"]
 	if !ok {
-		return "", fmt.Errorf("Missing profile parameter!")
+		profile = "default"
 	}
 
 	ciphertextBlob, err := base64.StdEncoding.DecodeString(string(ciphertext))
@@ -88,7 +88,7 @@ func kmsClient(region string, profile string) kmsiface.KMSAPI {
 
 	clientsLock.Lock()
 	client = kms.New(session.New(), &aws.Config{
-		Region: aws.String(region),
+		Region:      aws.String(region),
 		Credentials: credentials.NewSharedCredentials("", profile),
 	})
 	kmsClients[region] = client
