@@ -1,3 +1,17 @@
-test:
-    override:
-        - 'go test -v -race . ./internal'
+version: 2
+
+jobs:
+    test:
+        docker:
+            - image: circleci/golang:latest
+        steps:
+            - checkout
+            - run:
+                name: Test
+                command: 'go test -v -race ./...'
+
+workflows:
+    version: 2
+    test:
+        jobs:
+            - test
