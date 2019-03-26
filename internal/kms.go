@@ -88,7 +88,6 @@ func kmsClient(region string, profile string) kmsiface.KMSAPI {
 
 	clientsLock.Lock()
 	client = kms.New(session.New(), &aws.Config{
-
 		Region:      aws.String(region),
 		Credentials: credentials.NewSharedCredentials("", profile),
 	})
