@@ -26,9 +26,9 @@ func TestKms(t *testing.T) {
 		nil,
 	)
 	secret, myDecryptParams, err := kmsCrypter.Encrypt("mypass", map[string]string{
-		"region": "myregion",
+		"region":  "myregion",
 		"profile": "myprofile",
-		"keyID":  "mykey",
+		"keyID":   "mykey",
 	})
 	assert.Equal(t, myDecryptParams, DecryptParams{
 		"region": "myregion",
