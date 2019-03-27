@@ -63,6 +63,7 @@ func (s *StrictSecret) UnmarshalText(text []byte) error {
 	return nil
 }
 
+// AppendParameters sets given decryption parameters.
 func (s *StrictSecret) AppendParameters(decryptParams internal.DecryptParams) {
 	for key, value := range decryptParams {
 		s.decryptParams[key] = value
