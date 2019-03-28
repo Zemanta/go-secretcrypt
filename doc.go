@@ -1,5 +1,5 @@
 /*
-Utility for keeping your secrets encrypted.
+Package secretcrypt is an utility for keeping your secrets encrypted.
 
 For example, you have the following TOML (or any format whose decoder
 supports TextUnmarshaler interface for custom values) configuration file
