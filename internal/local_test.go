@@ -43,3 +43,27 @@ func TestLocal(t *testing.T) {
 	_, err = os.Stat(keyFilePath)
 	assert.NoError(t, err)
 }
+
+func TestLocalErrors(t *testing.T) {
+	tmpDir, err := ioutil.TempDir("", "")
+	assert.Nil(t, err)
+	defer os.RemoveAll(tmpDir)
+	pathGetter = tmpKeyPathGetter{tmpDir}
+
+	localCrypter := LocalCrypter{}
+
+	secret, _, err := localCrypter.Encrypt("mypass", nil)
+	assert.NoError(t, err)
+
+	plaintext, err := localCrypter.Decrypt("@Most_certainly: NOT, Base64 !!!", nil)
+	assert.Error(t, err, "not base64 cypher text should return error")
+	plaintext, err = localCrypter.Decrypt("", nil)
+	assert.Error(t, err, "empty cypher text should return error")
+	plaintext, err = localCrypter.Decrypt("Zm9v", nil)
+	assert.Error(t, err, "too short cypher text should return error")
+
+	plaintext, err = localCrypter.Decrypt(secret, nil)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "mypass", plaintext)
+}
