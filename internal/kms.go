@@ -6,7 +6,6 @@ import (
 	"sync"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/kms"
 	"github.com/aws/aws-sdk-go/service/kms/kmsiface"
@@ -27,17 +26,12 @@ func (c KMSCrypter) Encrypt(plaintext string, encryptParams EncryptParams) (Ciph
 		return Ciphertext(""), nil, fmt.Errorf("Missing region parameter!")
 	}
 
-	profile, ok := encryptParams["profile"]
-	if !ok {
-		profile = "default"
-	}
-
 	keyID, ok := encryptParams["keyID"]
 	if !ok {
 		return Ciphertext(""), nil, fmt.Errorf("Missing keyID parameter!")
 	}
 
-	resp, err := kmsClient(region, profile).Encrypt(
+	resp, err := kmsClient(region).Encrypt(
 		&kms.EncryptInput{
 			Plaintext: []byte(plaintext),
 			KeyId:     aws.String(keyID),
@@ -58,13 +52,8 @@ func (c KMSCrypter) Decrypt(ciphertext Ciphertext, decryptParams DecryptParams) 
 		return "", fmt.Errorf("Missing region parameter!")
 	}
 
-	profile, ok := decryptParams["profile"]
-	if !ok {
-		profile = "default"
-	}
-
 	ciphertextBlob, err := base64.StdEncoding.DecodeString(string(ciphertext))
-	resp, err := kmsClient(region, profile).Decrypt(
+	resp, err := kmsClient(region).Decrypt(
 		&kms.DecryptInput{
 			CiphertextBlob: ciphertextBlob,
 		},
@@ -76,23 +65,20 @@ func (c KMSCrypter) Decrypt(ciphertext Ciphertext, decryptParams DecryptParams) 
 	return string(resp.Plaintext), nil
 }
 
-func kmsClient(region string, profile string) kmsiface.KMSAPI {
-	key := region + ":" + profile
-
+func kmsClient(region string) kmsiface.KMSAPI {
 	clientsLock.RLock()
-	client, exists := kmsClients[key]
+	client, exists := kmsClients[region]
 	clientsLock.RUnlock()
 	if exists {
 		return client
 	}
-
 	clientsLock.Lock()
-	client = kms.New(session.New(), &aws.Config{
-		Region:      aws.String(region),
-		Credentials: credentials.NewSharedCredentials("", profile),
-	})
+	defer clientsLock.Unlock()
+	client, exists = kmsClients[region]
+	if exists {
+		return client
+	}
+	client = kms.New(session.New(), &aws.Config{Region: aws.String(region)})
 	kmsClients[region] = client
-	clientsLock.Unlock()
-
 	return client
 }
