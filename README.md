@@ -1,6 +1,9 @@
 # go-secretcrypt
 
-Utility for keeping your secrets encrypted.
+[![Circle CI](https://circleci.com/gh/Zemanta/go-secretcrypt.svg?style=svg)](https://circleci.com/gh/Zemanta/go-secretcrypt)
+[![GoDoc](https://godoc.org/github.com/Zemanta/go-secretcrypt?status.svg)](https://godoc.org/github.com/Zemanta/go-secretcrypt)
+
+Utility for keeping your secrets encrypted. Also has a [Python version](https://github.com/Zemanta/py-secretcrypt).
 
 For example, you have the following TOML (or any format whose decoder supports TextUnmarshaler interface for custom values) configuration file
 
@@ -64,13 +67,15 @@ if err != nil {
 
 ## KMS
 The KMS option uses AWS Key Management Service. When encrypting and decrypting
-KMS secrets, you need to provide which AWS region the is to be or was encrypted
-on, but it defaults to `us-east-1`.
+KMS secrets, you need to provide which AWS region and which AWS profile the is to be or was encrypted
+on, but it defaults to `us-east-1` and `default` respectively.
 
-So if you use a custom region, you must provide it to secretcrypt:
+So if you use a custom region and/or custom profile, you must provide it to secretcrypt:
 
 ```bash
 encrypt-secret kms --region us-west-1 alias/MyKey
+encrypt-secret kms --profile second alias/MyKey
+encrypt-secret kms --region us-west-1 --profile second alias/MyKey
 ```
 
 ## Local encryption
@@ -80,3 +85,10 @@ It generates a local key in your %USER_DATA_DIR%
 be accidentally committed to CVS.
 
 It then uses that key to symmetrically encrypt and decrypt your secrets.
+
+## Password encryption - interactive only
+
+The password encryption mode should not be used in your application - it is
+meant for easily sharing secrets among developers. It interactively prompts
+the user for a password when encrypting the secret. When decrypting, it
+prompts for the password again.
