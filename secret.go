@@ -70,13 +70,15 @@ func (s *StrictSecret) AppendParameters(decryptParams internal.DecryptParams) {
 	}
 }
 
-func (s *StrictSecret) String() string {
+// String ensures plaintext is not leaked when formatting the StrictSecret object
+// with %s.
+func (s StrictSecret) String() string {
 	return string(s.ciphertext)
 }
 
 // GoString ensures plaintext is not leaked when formatting the StrictSecret object
 // with %#v.
-func (s *StrictSecret) GoString() string {
+func (s StrictSecret) GoString() string {
 	return string(s.ciphertext)
 }
 
@@ -116,13 +118,15 @@ func (s *Secret) UnmarshalText(text []byte) error {
 	return err
 }
 
-func (s *Secret) String() string {
+// String ensures plaintext is not leaked when formatting the Secret object
+// with %s.
+func (s Secret) String() string {
 	return "<redacted>"
 }
 
-// GoString ensures plaintext is not leaked when formatting the StrictSecret object
+// GoString ensures plaintext is not leaked when formatting the Secret object
 // with %#v.
-func (s *Secret) GoString() string {
+func (s Secret) GoString() string {
 	return "<redacted>"
 }
 
