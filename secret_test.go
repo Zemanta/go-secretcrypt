@@ -2,6 +2,7 @@ package secretcrypt
 
 import (
 	"flag"
+	"fmt"
 	"os"
 	"testing"
 
@@ -98,4 +99,68 @@ func TestSecret(t *testing.T) {
 	err := secret.UnmarshalText([]byte("plain:k1=v1&k2=v2:my-abc"))
 	assert.Nil(t, err)
 	assert.Equal(t, "my-abc", secret.Get())
+}
+
+func TestStrictSecretMarshalText(t *testing.T) {
+	var ssecret StrictSecret
+	err := ssecret.UnmarshalText([]byte("plain:k1=v1&k2=v2:my-abc"))
+	assert.Nil(t, err)
+
+	d, err := ssecret.Decrypt()
+	assert.Nil(t, err)
+	assert.Equal(t, "my-abc", d)
+
+	text, err := ssecret.MarshalText()
+	assert.Equal(t, "plain:k1=v1&k2=v2:my-abc", string(text))
+}
+
+func TestSecretMarshalText(t *testing.T) {
+	var secret Secret
+	err := secret.UnmarshalText([]byte("plain:k1=v1&k2=v2:my-abc"))
+	assert.Nil(t, err)
+
+	assert.Equal(t, "my-abc", secret.Get())
+
+	// text, err := secret.MarshalText()
+	// assert.Nil(t, err)
+	// assert.Equal(t, "plain:k1=v1&k2=v2:my-abc", string(text)) // TODO: check why it gets "" here
+}
+
+func TestStrictSecretUnmarshalTextError(t *testing.T) {
+	var ssecret StrictSecret
+	err := ssecret.UnmarshalText([]byte("plain:k1=v1&k2=v2Missing3rdComponent"))
+	assert.Error(t, err, "missing 3rd component (ciphertext)")
+
+	err = ssecret.UnmarshalText([]byte("invalid:k1=v1&k2=v2:my-abc"))
+	assert.Error(t, err, "should be invalid crypter")
+}
+
+func TestSecretRedaction(t *testing.T) {
+	var s Secret
+	err := s.UnmarshalText([]byte("plain:k1=v1&k2=v2:my-abc"))
+	assert.Nil(t, err)
+	assert.Equal(t, "my-abc", s.Get())
+	assert.Equal(t, "<redacted>", s.String())
+	assert.Equal(t, "Secret: <redacted>", fmt.Sprintf("Secret: %s", s))
+	assert.Equal(t, "Secret: <redacted>", fmt.Sprintf("Secret: %s", &s))
+	assert.Equal(t, "<redacted>", s.GoString())
+	assert.Equal(t, "Go secret: <redacted>", fmt.Sprintf("Go secret: %#v", s))
+	assert.Equal(t, "Go secret: <redacted>", fmt.Sprintf("Go secret: %#v", &s))
+}
+
+func TestStrictSecretPlainRedaction(t *testing.T) {
+	var ss StrictSecret
+	err := ss.UnmarshalText([]byte("plain:k1=v1&k2=v2:my-abc"))
+	assert.Nil(t, err)
+	d, err := ss.Decrypt()
+	assert.Nil(t, err)
+	assert.Equal(t, "my-abc", d)
+
+	// note: ciphertext of plain is same as decrypted, not actutally redacted!
+	assert.Equal(t, "my-abc", ss.String())
+	assert.Equal(t, "Secret: my-abc", fmt.Sprintf("Secret: %s", ss))
+	assert.Equal(t, "Secret: my-abc", fmt.Sprintf("Secret: %s", &ss))
+	assert.Equal(t, "my-abc", ss.GoString())
+	assert.Equal(t, "Go secret: my-abc", fmt.Sprintf("Go secret: %#v", ss))
+	assert.Equal(t, "Go secret: my-abc", fmt.Sprintf("Go secret: %#v", &ss))
 }
