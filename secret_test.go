@@ -110,19 +110,27 @@ func TestStrictSecretMarshalText(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, "my-abc", d)
 
+	extraParams := internal.DecryptParams{
+		"k3": "v3",
+	}
+	ssecret.AppendParameters(extraParams)
+
 	text, err := ssecret.MarshalText()
-	assert.Equal(t, "plain:k1=v1&k2=v2:my-abc", string(text))
+	assert.Equal(t, "plain:k1=v1&k2=v2&k3=v3:my-abc", string(text))
 }
 
 func TestSecretMarshalText(t *testing.T) {
-	var secret Secret
-	err := secret.UnmarshalText([]byte("plain:k1=v1&k2=v2:my-abc"))
-	assert.Nil(t, err)
+	secret, err := LoadSecret("invalid")
+	assert.NotNil(t, err)
 
+	secret, err = LoadSecret("plain:k1=v1&k2=v2:my-abc")
+	assert.Nil(t, err)
 	assert.Equal(t, "my-abc", secret.Get())
 
-	// text, err := secret.MarshalText()
-	// assert.Nil(t, err)
+	text, err := secret.MarshalText()
+	assert.Nil(t, err)
+	assert.NotNil(t, text)
+	assert.Equal(t, "", string(text))
 	// assert.Equal(t, "plain:k1=v1&k2=v2:my-abc", string(text)) // TODO: check why it gets "" here
 }
 
