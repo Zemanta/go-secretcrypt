@@ -32,7 +32,7 @@ func TestKms(t *testing.T) {
 	assert.Equal(t, myDecryptParams, DecryptParams{
 		"region": "myregion",
 	})
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	mockKMS.On("Decrypt",
 		&kms.DecryptInput{

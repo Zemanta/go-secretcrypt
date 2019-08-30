@@ -20,7 +20,7 @@ func (g tmpKeyPathGetter) keyPaths() (string, string, error) {
 
 func TestLocal(t *testing.T) {
 	tmpDir, err := ioutil.TempDir("", "")
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	defer os.RemoveAll(tmpDir)
 	pathGetter = tmpKeyPathGetter{tmpDir}
 
@@ -46,7 +46,7 @@ func TestLocal(t *testing.T) {
 
 func TestLocalErrors(t *testing.T) {
 	tmpDir, err := ioutil.TempDir("", "")
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	defer os.RemoveAll(tmpDir)
 	pathGetter = tmpKeyPathGetter{tmpDir}
 
