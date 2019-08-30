@@ -116,6 +116,7 @@ func TestStrictSecretMarshalText(t *testing.T) {
 	ssecret.AppendParameters(extraParams)
 
 	text, err := ssecret.MarshalText()
+	assert.Nil(t, err)
 	assert.Equal(t, "plain:k1=v1&k2=v2&k3=v3:my-abc", string(text))
 }
 

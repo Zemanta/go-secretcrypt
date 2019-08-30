@@ -57,10 +57,13 @@ func TestLocalErrors(t *testing.T) {
 
 	plaintext, err := localCrypter.Decrypt("@Most_certainly: NOT, Base64 !!!", nil)
 	assert.Error(t, err, "not base64 cypher text should return error")
+	assert.Zero(t, plaintext)
 	plaintext, err = localCrypter.Decrypt("", nil)
 	assert.Error(t, err, "empty cypher text should return error")
+	assert.Zero(t, plaintext)
 	plaintext, err = localCrypter.Decrypt("Zm9v", nil)
 	assert.Error(t, err, "too short cypher text should return error")
+	assert.Zero(t, plaintext)
 
 	plaintext, err = localCrypter.Decrypt(secret, nil)
 	assert.NoError(t, err)
