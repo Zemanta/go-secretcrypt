@@ -20,7 +20,7 @@ func (g tmpKeyPathGetter) keyPaths() (string, string, error) {
 
 func TestLocal(t *testing.T) {
 	tmpDir, err := ioutil.TempDir("", "")
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	defer os.RemoveAll(tmpDir)
 	pathGetter = tmpKeyPathGetter{tmpDir}
 
@@ -46,7 +46,7 @@ func TestLocal(t *testing.T) {
 
 func TestLocalErrors(t *testing.T) {
 	tmpDir, err := ioutil.TempDir("", "")
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	defer os.RemoveAll(tmpDir)
 	pathGetter = tmpKeyPathGetter{tmpDir}
 
@@ -57,10 +57,13 @@ func TestLocalErrors(t *testing.T) {
 
 	plaintext, err := localCrypter.Decrypt("@Most_certainly: NOT, Base64 !!!", nil)
 	assert.Error(t, err, "not base64 cypher text should return error")
+	assert.Zero(t, plaintext)
 	plaintext, err = localCrypter.Decrypt("", nil)
 	assert.Error(t, err, "empty cypher text should return error")
+	assert.Zero(t, plaintext)
 	plaintext, err = localCrypter.Decrypt("Zm9v", nil)
 	assert.Error(t, err, "too short cypher text should return error")
+	assert.Zero(t, plaintext)
 
 	plaintext, err = localCrypter.Decrypt(secret, nil)
 	assert.NoError(t, err)

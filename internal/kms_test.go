@@ -32,7 +32,7 @@ func TestKms(t *testing.T) {
 	assert.Equal(t, myDecryptParams, DecryptParams{
 		"region": "myregion",
 	})
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	mockKMS.On("Decrypt",
 		&kms.DecryptInput{
@@ -46,6 +46,10 @@ func TestKms(t *testing.T) {
 	)
 
 	plaintext, err := kmsCrypter.Decrypt(secret, myDecryptParams)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.Equal(t, "mypass", plaintext)
+
+	plaintext, err = kmsCrypter.Decrypt("@Not_base64 !!!", myDecryptParams)
+	assert.Error(t, err)
+	assert.Zero(t, plaintext)
 }

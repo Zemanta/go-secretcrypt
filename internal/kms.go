@@ -53,6 +53,10 @@ func (c KMSCrypter) Decrypt(ciphertext Ciphertext, decryptParams DecryptParams) 
 	}
 
 	ciphertextBlob, err := base64.StdEncoding.DecodeString(string(ciphertext))
+	if err != nil {
+		return "", err
+	}
+
 	resp, err := kmsClient(region).Decrypt(
 		&kms.DecryptInput{
 			CiphertextBlob: ciphertextBlob,
