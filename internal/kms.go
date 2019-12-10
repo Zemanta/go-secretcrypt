@@ -1,3 +1,5 @@
+//go:generate mockery -inpkg -name=KMSAPI -testonly
+
 package internal
 
 import (
@@ -15,6 +17,11 @@ type KMSCrypter struct{}
 
 var kmsClients = make(map[string]kmsiface.KMSAPI)
 var clientsLock sync.RWMutex
+
+// KMSAPI wraps kmsiface.KMSAPI so that we can generate mock
+type KMSAPI interface {
+	kmsiface.KMSAPI
+}
 
 func (c KMSCrypter) Name() string {
 	return "kms"
