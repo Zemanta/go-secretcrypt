@@ -91,3 +91,10 @@ The password encryption mode should not be used in your application - it is
 meant for easily sharing secrets among developers. It interactively prompts
 the user for a password when encrypting the secret. When decrypting, it
 prompts for the password again.
+
+## Install command-line utilities
+You can install command-line utilities `encrypt-secret` and `decrypt-secret` via:
+
+```bash
+go install -i github.com/Zemanta/go-secretcrypt/cmd/...
+```
