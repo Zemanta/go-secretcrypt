@@ -6,7 +6,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Zemanta/go-secretcrypt/internal"
+	internal "github.com/Zemanta/go-secretcrypt/internal"
+	test "github.com/Zemanta/go-secretcrypt/test"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -39,7 +41,7 @@ func TestNewStrictSecret(t *testing.T) {
 }
 
 func TestDecrypt(t *testing.T) {
-	mockCrypter := &internal.MockCrypter{}
+	mockCrypter := &test.MockCrypter{}
 	internal.CryptersMap["mock"] = mockCrypter
 	mockCrypter.On(
 		"Decrypt",
@@ -59,7 +61,7 @@ func TestDecrypt(t *testing.T) {
 }
 
 func TestNoCaching(t *testing.T) {
-	mockCrypter := &internal.MockCrypter{}
+	mockCrypter := &test.MockCrypter{}
 	internal.CryptersMap["mock"] = mockCrypter
 	mockCrypter.On(
 		"Decrypt",
