@@ -131,8 +131,7 @@ func TestSecretMarshalText(t *testing.T) {
 	text, err := secret.MarshalText()
 	assert.NoError(t, err)
 	assert.NotNil(t, text)
-	assert.Equal(t, "", string(text))
-	// assert.Equal(t, "plain:k1=v1&k2=v2:my-abc", string(text)) // TODO: check why it gets "" here
+	assert.Equal(t, "plain:k1=v1&k2=v2:my-abc", string(text))
 }
 
 func TestStrictSecretUnmarshalTextError(t *testing.T) {
