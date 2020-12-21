@@ -114,6 +114,7 @@ func (s *Secret) UnmarshalText(text []byte) error {
 	if err != nil {
 		return err
 	}
+	s.secret = string(text)
 	s.plaintext, err = strictSecret.Decrypt()
 	return err
 }
