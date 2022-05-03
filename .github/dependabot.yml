@@ -11,7 +11,3 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "monthly"
-    reviewers:
-    - maticz
-    - stefanb
-    - nsaje
