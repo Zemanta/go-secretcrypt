@@ -42,4 +42,3 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         file: ./cover.out
-        gcov_ignore: mock_*.go
