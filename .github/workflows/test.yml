@@ -36,7 +36,7 @@ jobs:
           go-cache-
 
     - name: Test
-      run: go test -v -race -cover -coverprofile=cover.out ./...
+      run: go test -v -race -cover -coverprofile=cover.out -covermode=atomic ./...
 
     - name: Upload coverage report
       uses: codecov/codecov-action@v3
