@@ -1,4 +1,4 @@
-//go:generate mockery -inpkg -name=KMSAPI -testonly
+//go:generate mockery --inpackage --name=KMSAPI --testonly
 
 package internal
 
