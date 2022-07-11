@@ -1,5 +1,6 @@
 # go-secretcrypt
 
+[![Test](https://github.com/Zemanta/go-secretcrypt/actions/workflows/test.yml/badge.svg)](https://github.com/Zemanta/go-secretcrypt/actions/workflows/test.yml)
 [![Circle CI](https://circleci.com/gh/Zemanta/go-secretcrypt.svg?style=svg)](https://circleci.com/gh/Zemanta/go-secretcrypt)
 [![GoDoc](https://godoc.org/github.com/Zemanta/go-secretcrypt?status.svg)](https://godoc.org/github.com/Zemanta/go-secretcrypt)
 [![codecov](https://codecov.io/gh/Zemanta/go-secretcrypt/branch/master/graph/badge.svg)](https://codecov.io/gh/Zemanta/go-secretcrypt)
